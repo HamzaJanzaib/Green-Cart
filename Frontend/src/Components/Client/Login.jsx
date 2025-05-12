@@ -6,11 +6,20 @@ const Login = () => {
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const { setShowUserLogin, setUser } = useAppContext()
 
-    const { setShowUserLogin } = useAppContext()
+    const onSubmithandler = (e) => {
+        e.preventDefault();
+        setUser({
+            email: "test@gmail.com",
+            name: "test"
+        })
+        setShowUserLogin(false)
+    }
+
     return (
         <div onClick={() => setShowUserLogin(false)} className='fixed top-0 bottom-0 right-0 z-30 flex items-center text-sm text-gray-600 bg-black/50 w-full'>
-            <form onClick={(e) => e.stopPropagation()} className="flex flex-col gap-4 m-auto items-start p-8 py-12 w-80 sm:w-[352px] rounded-lg shadow-xl border border-gray-200 bg-white">
+            <form onSubmit={onSubmithandler} onClick={(e) => e.stopPropagation()} className="flex flex-col gap-4 m-auto items-start p-8 py-12 w-80 sm:w-[352px] rounded-lg shadow-xl border border-gray-200 bg-white">
                 <p className="text-2xl font-medium m-auto">
                     <span className="text-primary">User</span> {state === "login" ? "Login" : "Register"}
                 </p>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { assets } from "../../assets/assets";
 import { useAppContext } from '../../context/AppContext';
@@ -12,15 +12,23 @@ const Header = () => {
         ShowUserLogin,
         setShowUserLogin,
         isSeller,
-        navigate
+        navigate,
+        setSearchQuary,
+        SearchQuary
     } = useAppContext();
 
     const LogoutUser = () => {
         setUser(null);
         setDropdownOpen(false);
         setOpen(false);
-        navigate("/login");
+        navigate("/");
     };
+
+    useEffect(() => {
+        if (SearchQuary > 0) {
+            navigate("/products")
+        }
+    }, [SearchQuary])
 
     const navLinks = [
         { name: "Home", path: "/" },
@@ -47,6 +55,7 @@ const Header = () => {
                 {/* Search */}
                 <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
                     <input
+                        onChange={(e) => setSearchQuary(e.target.value)}
                         className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500"
                         type="text"
                         placeholder="Search products"
@@ -81,22 +90,24 @@ const Header = () => {
                             />
                         </div>
                         {dropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
-                                <Link to="/profile" onClick={() => setDropdownOpen(false)} className="block px-4 py-2 text-sm hover:bg-gray-100">
-                                    Profile
-                                </Link>
-                                {isSeller && (
-                                    <Link to="/dashboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-2 text-sm hover:bg-gray-100">
-                                        Dashboard
+                            <>
+                                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
+                                    <Link to="/profile" onClick={() => setDropdownOpen(false)} className="block px-4 py-2 text-sm hover:bg-gray-100">
+                                        Profile
                                     </Link>
-                                )}
-                                <button
-                                    onClick=    {LogoutUser}
-                                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                                >
-                                    Logout
-                                </button>
-                            </div>
+                                    {isSeller && (
+                                        <Link to="/dashboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-2 text-sm hover:bg-gray-100">
+                                            Dashboard
+                                        </Link>
+                                    )}
+                                    <button
+                                        onClick={LogoutUser}
+                                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            </>
                         )}
                     </div>
                 )}

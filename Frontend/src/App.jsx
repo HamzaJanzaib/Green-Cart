@@ -1,7 +1,7 @@
 import React from 'react'
-import { Header, Footer , Login } from './Components/Client/Index'
+import { Header, Footer, Login } from './Components/Client/Index'
 import { Routes, Route, useLocation } from 'react-router-dom'
-import { Home } from './pages/Index'
+import { Home, AllProducts , ProductsCategory } from './pages/Index'
 import { Toaster } from "react-hot-toast"
 import { useAppContext } from './context/AppContext'
 
@@ -18,6 +18,8 @@ const App = () => {
       <div className={`${isSellerPath ? "" : "px-6 md:px-16 lg:px-24 xl:px-32"}`}>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/Products' element={<AllProducts />} />
+          <Route path='/Products/:category' element={<ProductsCategory />} />
         </Routes>
       </div>
       {!isSellerPath && <Footer />}
