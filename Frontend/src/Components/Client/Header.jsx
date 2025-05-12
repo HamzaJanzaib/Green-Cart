@@ -14,7 +14,8 @@ const Header = () => {
         isSeller,
         navigate,
         setSearchQuary,
-        SearchQuary
+        SearchQuary,
+        geTCartCount
     } = useAppContext();
 
     const LogoutUser = () => {
@@ -64,10 +65,14 @@ const Header = () => {
                 </div>
 
                 {/* Cart */}
-                <Link to="/cart" className="relative cursor-pointer">
-                    <img src={assets.nav_cart_icon} alt="Cart" className='w-6 opacity-80' />
-                    <button className="absolute -top-2 -right-3 text-xs text-white bg-primary w-[18px] h-[18px] rounded-full">3</button>
-                </Link>
+                <div onClick={() => navigate("/cart")} className="relative cursor-pointer group">
+                    <div className="flex items-center gap-1 transition-transform hover:scale-105">
+                        <img src={assets.cart_icon} alt="cart icon" className='w-6 opacity-80' />
+                        <button className="absolute -top-2 -right-3 text-xs text-white bg-primary w-[18px] h-[18px] rounded-full flex items-center justify-center">
+                            {geTCartCount()}
+                        </button>
+                    </div>
+                </div>
 
                 {/* Auth */}
                 {!user ? (
@@ -112,11 +117,24 @@ const Header = () => {
                     </div>
                 )}
             </div>
+            <div className='flex items-center gap-6'>
+                <div className='sm:hidden cursor-pointer flex items-center gap-6'>
+                    {/* Cart */}
+                    <div onClick={() => navigate("/cart")} className="relative cursor-pointer group">
+                        <div className="flex items-center gap-1 transition-transform hover:scale-105">
+                            <img src={assets.cart_icon} alt="cart icon" className='w-6 opacity-80' />
+                            <button className="absolute -top-2 -right-3 text-xs text-white bg-primary w-[18px] h-[18px] rounded-full flex items-center justify-center">
+                                {geTCartCount()}
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-            {/* Mobile Menu Toggle */}
-            <button onClick={() => setOpen(!open)} aria-label="Menu" className="sm:hidden cursor-pointer">
-                <img src={assets.menu_icon} alt="Menu" className='w-6 opacity-80' />
-            </button>
+                {/* Mobile Menu Toggle */}
+                <button onClick={() => setOpen(!open)} aria-label="Menu" className="sm:hidden cursor-pointer">
+                    <img src={assets.menu_icon} alt="Menu" className='w-6 opacity-80' />
+                </button>
+            </div>
 
             {/* Mobile Menu */}
             <div className={`${open ? 'flex' : 'hidden'} absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}>

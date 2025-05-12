@@ -42,18 +42,44 @@ export const AppContextProvider = ({ children }) => {
         setCartItems(CartData)
         toast.success("Cart Update")
     }
-    // remove products to cart
+    // get cart Count
+
+    const geTCartCount = (itemId, Quantity) => {
+        let totalCount = 0;
+        for (const item in CartItems) {
+            totalCount += CartItems[item]
+        }
+        return totalCount
+    }
+
+    // total cart amount
+
+    const getCartTotalAmount = () => {
+        let totalAmount = 0;
+        for (const itemId in CartItems) {
+            const product = Products.find(product => product._id === itemId);
+            if (product && CartItems[itemId] > 0) {
+                totalAmount += product.offerPrice * CartItems[itemId];
+            }
+        }
+        return Math.floor(totalAmount * 100) / 100;
+    }
+
 
     const removeFromCart = async (itemId) => {
-        let CartData = structuredClone(CartItems)
+        let CartData = structuredClone(CartItems);
+
         if (CartData[itemId]) {
             CartData[itemId] -= 1;
             if (CartData[itemId] === 0) {
                 delete CartData[itemId];
             }
+
+            setCartItems(CartData); 
+            toast.success("Removed from cart");
         }
-        toast.success("Remove FRom Cart")
-    }
+    };
+
     useEffect(() => {
         fetchProducts()
     }, [])
@@ -72,7 +98,9 @@ export const AppContextProvider = ({ children }) => {
         removeFromCart,
         CartItems,
         SearchQuary,
-        setSearchQuary
+        setSearchQuary,
+        getCartTotalAmount,
+        geTCartCount
     };
 
     return (

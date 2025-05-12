@@ -1,7 +1,7 @@
 import React from 'react'
 import { Header, Footer, Login } from './Components/Client/Index'
 import { Routes, Route, useLocation } from 'react-router-dom'
-import { Home, AllProducts , ProductsCategory } from './pages/Index'
+import { Home, AllProducts, ProductsCategory, ProductsDetails , Cart } from './pages/Index'
 import { Toaster } from "react-hot-toast"
 import { useAppContext } from './context/AppContext'
 
@@ -20,6 +20,8 @@ const App = () => {
           <Route path='/' element={<Home />} />
           <Route path='/Products' element={<AllProducts />} />
           <Route path='/Products/:category' element={<ProductsCategory />} />
+          <Route path='/Products/:category/:id' element={<ProductsDetails />} />
+          <Route path='/cart' element={<Cart />} />
         </Routes>
       </div>
       {!isSellerPath && <Footer />}
