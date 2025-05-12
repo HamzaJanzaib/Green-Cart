@@ -6,6 +6,7 @@ import BottumBanner from "./BottumBanner";
 import NewsLetter from "./NewsLetter";
 import Footer from "./Footer";
 import Login from "./Login";
+import InputFeild from "./InputFeild";
 
 export {
     Header,
@@ -15,5 +16,6 @@ export {
     BottumBanner,
     NewsLetter,
     Footer,
-    Login
+    Login,
+    InputFeild
 }
