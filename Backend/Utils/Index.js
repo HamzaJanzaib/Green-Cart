@@ -1,5 +1,5 @@
-import { hashedPassword, comparePassword } from "./Bcrypt";
-import { createToken, verifyToken } from "./Jwt";
+const { hashedPassword, comparePassword } = require("./Bcrypt");
+const { createToken, verifyToken } = require("./Jwt");
 
 module.exports = {
     hashedPassword,

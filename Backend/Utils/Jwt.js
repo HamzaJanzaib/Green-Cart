@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 dotenv.config();
 
 module.exports.createToken = async (user) => {
-    const payload = { email: user.email, id: user._id, role: user.role };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "10h" });
+    const payload = { id: user._id };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
     return token;
 };
 
@@ -12,7 +12,7 @@ module.exports.verifyToken = async (token) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         return decoded;
-    } catch (error) {   
+    } catch (error) {
         if (error instanceof jwt.TokenExpiredError) {
             console.error("Token has expired:", error.message);
             throw new Error("Token expired");
