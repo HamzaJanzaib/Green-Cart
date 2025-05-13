@@ -8,81 +8,79 @@ export const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
     const currency = import.meta.env.VITE_CURRENCY;
     const navigate = useNavigate();
+
     const [user, setUser] = useState(false);
     const [isSeller, setIsSeller] = useState(false);
     const [ShowUserLogin, setShowUserLogin] = useState(false);
     const [Products, setProducts] = useState([]);
-
     const [CartItems, setCartItems] = useState({});
     const [SearchQuary, setSearchQuary] = useState({});
 
-    // fetching products
-    const fetchProducts = async () => {
-        setProducts(dummyProducts)
-    }
+    // Fetch products on load
+    useEffect(() => {
+        setProducts(dummyProducts);
+    }, []);
 
-    //add to cart
-    const addToCart = async (itemId) => {
-        let CartData = structuredClone(CartItems)
-
-        if (CartData[itemId]) {
-            CartData[itemId] += 1;
-        } else {
-            CartData[itemId] = 1;
+    // Load CartItems from localStorage on first render
+    useEffect(() => {
+        const storedCart = localStorage.getItem("cartItems");
+        if (storedCart) {
+            try {
+                setCartItems(JSON.parse(storedCart));
+            } catch (error) {
+                console.error("Failed to parse cartItems from localStorage", error);
+            }
         }
-        setCartItems(CartData)
-        toast.success("Add To Cart")
-    }
+    }, []);
 
-    // Updating cart Quantity
+    // Save CartItems to localStorage on every update
+    useEffect(() => {
+        localStorage.setItem("cartItems", JSON.stringify(CartItems));
+    }, [CartItems]);
+
+    const addToCart = async (itemId) => {
+        const updatedCart = { ...CartItems };
+        updatedCart[itemId] = (updatedCart[itemId] || 0) + 1;
+        setCartItems(updatedCart);
+        toast.success("Added to cart");
+    };
 
     const updateCartsItems = async (itemId, Quantity) => {
-        let CartData = structuredClone(CartItems)
-        CartData[itemId] = Quantity;
-        setCartItems(CartData)
-        toast.success("Cart Update")
-    }
-    // get cart Count
+        const updatedCart = { ...CartItems };
+        updatedCart[itemId] = Quantity;
+        setCartItems(updatedCart);
+        toast.success("Cart updated");
+    };
 
-    const geTCartCount = (itemId, Quantity) => {
+    const removeFromCart = async (itemId) => {
+        const updatedCart = { ...CartItems };
+        if (updatedCart[itemId]) {
+            updatedCart[itemId] -= 1;
+            if (updatedCart[itemId] === 0) delete updatedCart[itemId];
+            setCartItems(updatedCart);
+            toast.success("Removed from cart");
+        }
+    };
+
+    const geTCartCount = () => {
         let totalCount = 0;
         for (const item in CartItems) {
-            totalCount += CartItems[item]
+            totalCount += CartItems[item];
         }
-        return totalCount
-    }
-
-    // total cart amount
+        return totalCount;
+    };
 
     const getCartTotalAmount = () => {
         let totalAmount = 0;
         for (const itemId in CartItems) {
             const product = Products.find(product => product._id === itemId);
-            if (product && CartItems[itemId] > 0) {
+            if (product) {
                 totalAmount += product.offerPrice * CartItems[itemId];
             }
         }
         return Math.floor(totalAmount * 100) / 100;
-    }
-
-
-    const removeFromCart = async (itemId) => {
-        let CartData = structuredClone(CartItems);
-
-        if (CartData[itemId]) {
-            CartData[itemId] -= 1;
-            if (CartData[itemId] === 0) {
-                delete CartData[itemId];
-            }
-
-            setCartItems(CartData); 
-            toast.success("Removed from cart");
-        }
     };
 
-    useEffect(() => {
-        fetchProducts()
-    }, [])
     const value = {
         navigate,
         user,
@@ -110,6 +108,4 @@ export const AppContextProvider = ({ children }) => {
     );
 };
 
-export const useAppContext = () => {
-    return useContext(AppContext);
-};
+export const useAppContext = () => useContext(AppContext);
