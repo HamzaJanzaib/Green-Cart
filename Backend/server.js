@@ -7,7 +7,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 
-dBconnect(process.env.MONGO_URI); 
+dBconnect(process.env.MONGO_URI);
 app.use(cors(
     {
         origin: "http://localhost:5173", methods: ["GET", "POST", "PUT", "DELETE"], allowedHeaders: [
