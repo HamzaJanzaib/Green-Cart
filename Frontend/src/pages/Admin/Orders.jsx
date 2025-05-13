@@ -43,7 +43,7 @@ const Orders = () => {
                 <p key={index} className="font-medium text-gray-800">
                   {item.product.name}
                   {item.quantity > 1 && (
-                    <span className="text-indigo-500"> × {item.quantity}</span>
+                    <span className="text-primary"> × {item.quantity}</span>
                   )}
                 </p>
               ))}
