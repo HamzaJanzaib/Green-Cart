@@ -40,9 +40,9 @@ const AdminLayout = () => {
             </div>
 
             {/* Layout Body */}
-            <div className="flex min-h-screen">
+            <div className="flex max-h-[91.7vh]">
                 {/* Sidebar */}
-                <div className="md:w-64 w-16 border-r text-base border-gray-300 pt-4 flex flex-col bg-white">
+                <div className="md:w-64 w-16 border-r text-base  border-gray-300 pt-4 flex flex-col bg-white">
                     {sidebarLinks.map((item) => (
                         <NavLink
                             to={item.path}

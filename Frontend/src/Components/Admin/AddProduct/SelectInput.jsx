@@ -8,7 +8,7 @@ const SelectInput = ({ id, label, value, onChange, options = [] }) => {
         id={id}
         value={value}
         onChange={onChange}
-        className="border rounded border-gray-400/80 p-3 bg-white focus:outline-none"
+        className="border rounded border-gray-400/80 p-3 bg-[#F9FAFB] focus:outline-none"
       >
         <option value="">Select a {label}</option>
         {console.log(options)}

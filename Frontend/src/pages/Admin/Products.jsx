@@ -31,7 +31,8 @@ const Products = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-white">
+    <div className="no-scrolbar py-10 flex-1 h-[95vh] flex overflow-y-scroll flex-col justify-between bg-[#F9FAFB]">
+    <div className="flex-1 flex flex-col bg-[#F9FAFB]">
       <div className="w-full md:p-10 p-4">
         {/* Header & Filters */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 flex-wrap">
@@ -81,7 +82,7 @@ const Products = () => {
         </div>
 
         {/* Table with scrollable container */}
-        <div className="w-full overflow-auto rounded-md border border-gray-300 bg-white max-h-[60vh]">
+        <div className="w-full overflow-auto rounded-md border border-gray-300 bg-[#F9FAFB] max-h-[60vh]">
           <table className="w-full table-auto min-w-[600px]">
             <thead className="text-gray-900 text-sm bg-gray-50">
               <tr>
@@ -106,7 +107,7 @@ const Products = () => {
                         className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center cursor-pointer"
                         onClick={() => navigate(`/products/${product.category}/${product._id}`)}
                       >
-                        <FaEye className="text-white text-lg" />
+                        <FaEye className="text-[#F9FAFB] text-lg" />
                       </div>
                     </div>
                     <span className="truncate max-w-[120px] md:max-w-none">{product.name}</span>
@@ -117,7 +118,7 @@ const Products = () => {
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" className="sr-only peer" defaultChecked={product.inStock} />
                       <div className="w-12 h-7 bg-slate-300 rounded-full peer peer-checked:bg-primary transition" />
-                      <span className="dot absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5" />
+                      <span className="dot absolute left-1 top-1 w-5 h-5 bg-[#F9FAFB] rounded-full transition-transform peer-checked:translate-x-5" />
                     </label>
                   </td>
                   <td className="px-4 py-3">
@@ -162,7 +163,7 @@ const Products = () => {
                   key={i}
                   onClick={() => goToPage(i + 1)}
                   className={`w-9 h-9 md:w-12 md:h-12 rounded-md ${currentPage === i + 1
-                    ? 'bg-primary text-white'
+                    ? 'bg-primary text-[#F9FAFB]'
                     : 'hover:bg-gray-200'
                     }`}
                 >
@@ -184,6 +185,7 @@ const Products = () => {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 };

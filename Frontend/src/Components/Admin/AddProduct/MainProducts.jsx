@@ -58,7 +58,7 @@ const MainProducts = () => {
   };
 
   return (
-    <div className="no-scrolbar py-10 flex-1 h-[95vh] flex overflow-y-scroll flex-col justify-between bg-white">
+    <div className="no-scrolbar py-10 flex-1 h-[90vh] flex overflow-y-scroll flex-col justify-between bg-[#F9FAFB]">
       <form onSubmit={handleSubmit} className="md:p-10 p-4 space-y-5 max-w-xl">
 
         {/* Image Upload Section */}
@@ -123,7 +123,7 @@ const MainProducts = () => {
             value={formData.description}
             onChange={handleChange}
             placeholder="Enter product description"
-            className="border rounded p-3 border-gray-400/80 bg-white min-h-[150px] focus:outline-none"
+            className="border rounded p-3 border-gray-400/80 bg-[#F9FAFB] min-h-[150px] focus:outline-none"
           />
           {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
         </div>
@@ -133,7 +133,7 @@ const MainProducts = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="px-8 py-2.5 bg-primary hover:bg-primary-dull text-white font-medium rounded"
+          className="px-8 py-2.5 bg-primary hover:bg-primary-dull text-[#F9FAFB] font-medium rounded"
         >
           Add Product
         </button>
