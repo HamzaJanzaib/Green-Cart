@@ -40,8 +40,11 @@ app.use(cookieParser());
 // -------------- import CookieParser For Sending Cookie For Client Browser end
 
 // imports routes and use
-const AuthRouter = require('./Routes/Auth.Routes');
-app.use("/api/auth", AuthRouter);
+const {
+     AuthRouter,
+    AdminRouter } = require('./Routes/index');
+app.use("/api/auth/user", AuthRouter);
+app.use("/api/auth/admin", AdminRouter);
 // -------------- imports routes and use end
 
 const startServer = async () => {
@@ -57,7 +60,11 @@ startServer();
 
 
 
-// first Api Register ? http://localhost:8080/api/auth/register
-// first Api Login ? http://localhost:8080/api/auth/Login
-// first Api Logout ? http://localhost:8080/api/auth/Logout
-// first Api checkauth uservalid or not ? http://localhost:8080/api/auth/check-auth
+// first Api Register ? http://localhost:8080/api/auth/user/register Post Api
+// first Api Login ? http://localhost:8080/api/auth/user/Login Post Api
+// first Api Logout ? http://localhost:8080/api/auth/user/Logout get Api
+// first Api checkauth uservalid or not ? http://localhost:8080/api/auth/user/check-auth get Api
+
+
+// first Api Admin-login ? http://localhost:8080/api/auth/admin/login Post Api
+// first Api logoutAdmin ? http://localhost:8080/api/auth/admin/logout get Api
