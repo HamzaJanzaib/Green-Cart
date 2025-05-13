@@ -1,9 +1,10 @@
-import React from 'react'
+import { MainProducts } from "../../Components/Admin";
 
 const AddProducts = () => {
-  return (
-    <div>AddProducts</div>
-  )
-}
 
-export default AddProducts
+  return (
+    <MainProducts />
+  );
+};
+
+export default AddProducts;

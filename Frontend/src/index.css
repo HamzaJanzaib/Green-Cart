@@ -10,3 +10,24 @@
   --color-primary-dull: #44ae7c;
 }
 
+.no-scrolbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrolbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.ql-container {
+  min-height: 180px;
+  border-radius: 6px;
+}
+
+.ql-toolbar {
+  border-radius: 6px 6px 0 0;
+}
