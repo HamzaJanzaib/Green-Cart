@@ -4,6 +4,11 @@ import ProductsCategory from "./ProductsCategory";
 import ProductsDetails from "./ProductsDetails";
 import Cart from "./Cart";
 import AddAddress from "./AddAddress";
+import MyOrders from "./MyOrders";
+import AdminLogin from "./Admin/AdminLogin";
+import AdminLayout from "./Admin/AdminLayout";
+import ErrorPage from "./ErrorPage";
+
 
 export {
     Home,
@@ -11,5 +16,9 @@ export {
     ProductsCategory,
     ProductsDetails,
     Cart,
-    AddAddress
+    AddAddress,
+    MyOrders,
+    AdminLogin,
+    AdminLayout,
+    ErrorPage
 }
