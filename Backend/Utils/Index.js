@@ -1,5 +1,5 @@
-import { hashedPassword, comparePassword } from './Bcrypt';
-import { createToken, verifyToken } from './Jwt';
+import { hashedPassword, comparePassword } from './Bcrypt.js';
+import { createToken, verifyToken } from './Jwt.js';
 
 export {
     hashedPassword,

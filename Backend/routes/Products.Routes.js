@@ -1,7 +1,7 @@
 import express from 'express';
-import { IsAdmin } from '../Middleware/Auth.Middleware';
-import { Upload } from '../Config/Multer';
-import { addProducts, updateProducts, DelateProducts, products, productsById, changeStock } from '../controllers/Products.Controller';
+import { IsAdmin } from '../Middleware/Auth.Middleware.js';
+import { Upload } from '../Config/Multer.js';
+import { addProducts, updateProducts, DelateProducts, products, productsById, changeStock } from '../controllers/Products.Controller.js';
 
 const router = express.Router();
 

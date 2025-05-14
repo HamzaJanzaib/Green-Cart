@@ -1,7 +1,7 @@
-import AuthRouter from './Auth.Routes';
-import AdminRouter from './Admin.Routes';
-import ProductsRoutes from './Products.Routes';
-import CategorysRoutes from './Category.Routes';
+import AuthRouter from './Auth.Routes.js';
+import AdminRouter from './Admin.Routes.js';
+import ProductsRoutes from './Products.Routes.js';
+import CategorysRoutes from './Category.Routes.js';
 
 export {
     AuthRouter,

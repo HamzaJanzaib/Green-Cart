@@ -1,7 +1,7 @@
 import express from 'express';
-import { IsAdmin } from '../Middleware/Auth.Middleware';
-import { Upload } from '../Config/Multer';
-import { Addcategory, categorys, updatecategory, Delatecategory } from '../controllers/Category.Controller';
+import { IsAdmin } from '../Middleware/Auth.Middleware.js';
+import { Upload } from '../Config/Multer.js';
+import { Addcategory, categorys, updatecategory, Delatecategory } from '../controllers/Category.Controller.js';
 
 const router = express.Router();
 

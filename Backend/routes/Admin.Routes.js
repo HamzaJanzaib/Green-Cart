@@ -1,7 +1,7 @@
 import express from 'express';
-import { adminLogin, logoutAdmin, verifiedAdmin } from '../controllers/Auth.Controller';
-import { validlogin } from '../Middleware/validregister';
-import { IsAdmin } from '../Middleware/Auth.Middleware';
+import { adminLogin, logoutAdmin, verifiedAdmin } from '../controllers/Auth.Controller.js';
+import { validlogin } from '../Middleware/validregister.js';
+import { IsAdmin } from '../Middleware/Auth.Middleware.js';
 
 const router = express.Router();
 
