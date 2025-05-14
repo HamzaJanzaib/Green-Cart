@@ -1,16 +1,16 @@
 export const validregister = (req, res, next) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    const { firstname, email, password } = req.body;
+    const { fullname, email, password } = req.body;
 
-    if (!firstname?.trim() || !email?.trim() || !password?.trim()) {
+    if (!fullname?.trim() || !email?.trim() || !password?.trim()) {
         return res.status(400).json({
             success: false,
             message: "Please fill in all fields"
         });
     }
 
-    if (firstname.length < 4) {
+    if (fullname.length < 4) {
         return res.status(400).json({
             success: false,
             message: "First name and last name must be at least 4 characters"

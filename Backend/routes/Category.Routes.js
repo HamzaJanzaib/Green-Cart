@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/addCategory', Upload.single('image'), IsAdmin, Addcategory);
 
 // Get all categories
-router.get('/categories', categorys);
+router.get('/', categorys);
 
 // Update category
 router.put('/updateCategory/:id', Upload.single('image'), IsAdmin, updatecategory);

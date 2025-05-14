@@ -17,11 +17,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Import And Call DB function
-await dBconnect(process.env.MONGO_URI);
+dBconnect(process.env.MONGO_URI);
 // -------------- Import And Call DB function end
 
 // Import And Call Cloudinary function
-await ConnectCloudinary();
+ConnectCloudinary();
 // -------------- Import And Call Cloudinary function end
 
 // CORS configuration
@@ -43,10 +43,10 @@ app.use(cookieParser());
 // -------------- CookieParser end
 
 // Routes
-app.use("/api/auth/user", AuthRouter);
-app.use("/api/auth/admin", AdminRouter);
-app.use("/api/auth/products", ProductsRoutes);
-app.use("/api/auth/Category", CategorysRoutes);
+app.use("/api/user", AuthRouter);
+app.use("/api/admin", AdminRouter);
+app.use("/api/products", ProductsRoutes);
+app.use("/api/Category", CategorysRoutes);
 // -------------- Routes end
 
 const startServer = async () => {

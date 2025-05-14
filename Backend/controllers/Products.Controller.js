@@ -1,42 +1,61 @@
 import { v2 as Cloudinary } from 'cloudinary'; // Cloudinary v2 import for ESM
 import { extractPublicId } from '../Config/Helper.js';
 import { ProductModel, CategoryModel } from '../models/Index.js';
+import fs from 'fs';
 
 // Controller For Add Products
+
 export const addProducts = async (req, res) => {
   try {
-    const productsData = JSON.parse(req.body.productsData);
+    const {
+      name,
+      description,
+      price,
+      offerPrice,
+      category,
+      inStock
+    } = req.body;
+
     const images = req.files;
 
-    // Upload images to Cloudinary and collect secure URLs
+    // ✅ Check required fields
+    if (!name || !description || !price || !category || !images || !images.length) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide all required fields and at least one image.'
+      });
+    }
+
+    // ✅ Upload images to Cloudinary and get URLs
     const imagesUrl = await Promise.all(
       images.map(async (item) => {
         const result = await Cloudinary.uploader.upload(item.path, {
-          resource_type: 'image'
+          resource_type: 'auto'
         });
+
+        // Optional: delete local file after upload
+        fs.unlink(item.path, () => { });
         return result.secure_url;
       })
     );
 
-    // Find the category by its name
-    const foundCategory = await CategoryModel.findOne({ text: productsData.category });
+    const foundCategory = await CategoryModel.findOne({ text: category });
 
     if (!foundCategory) {
       return res.status(400).json({
         success: false,
-        message: `Category '${productsData.category}' not found`
+        message: `Category '${category}' not found`
       });
     }
 
-    // Create and save the product with all data
     const product = new ProductModel({
-      name: productsData.name,
-      description: productsData.description,
-      price: productsData.price,
-      offerPrice: productsData.offerPrice,
-      image: imagesUrl, // Array of URLs
+      name,
+      description,
+      price: price,
+      offerPrice: offerPrice,
+      image: imagesUrl,
       category: foundCategory._id,
-      inStock: productsData.inStock
+      inStock
     });
 
     const savedProduct = await product.save();
@@ -46,6 +65,7 @@ export const addProducts = async (req, res) => {
       message: 'Product added successfully',
       data: savedProduct
     });
+
   } catch (error) {
     console.error('Error adding product:', error);
     res.status(500).json({
@@ -55,6 +75,7 @@ export const addProducts = async (req, res) => {
     });
   }
 };
+
 // ----------------------- Controller For Add Products end
 
 // -------------------------------------------------------------------------------
@@ -118,9 +139,21 @@ export const productsById = async (req, res) => {
 // Controller For Change Stock
 export const changeStock = async (req, res) => {
   try {
-    const { id, inStock } = req.body;
+    const { id } = req.params;
+    let { inStock } = req.params; 
 
-    // Validate input
+    console.log('inStock (before conversion):', inStock);
+
+    // Convert 'true'/'false' strings to boolean
+    if (inStock === 'true') {
+      inStock = true;
+    } else if (inStock === 'false') {
+      inStock = false;
+    }
+
+    console.log('inStock (after conversion):', inStock);
+
+    // Validate if inStock is a boolean
     if (typeof inStock !== 'boolean') {
       return res.status(400).json({
         success: false,
@@ -128,6 +161,7 @@ export const changeStock = async (req, res) => {
       });
     }
 
+    // Update the stock status in the database
     const updatedProduct = await ProductModel.findByIdAndUpdate(
       id,
       { inStock },
@@ -155,6 +189,8 @@ export const changeStock = async (req, res) => {
     });
   }
 };
+
+
 // ----------------------- Controller For Change Stock end
 
 // -------------------------------------------------------------------------------
@@ -162,7 +198,8 @@ export const changeStock = async (req, res) => {
 // Controller For Update Products
 export const updateProducts = async (req, res) => {
   try {
-    const { id, name, description, price, offerPrice, category, inStock } = req.body;
+    const { id } = req.params;
+    const { name, description, price, offerPrice, category, inStock } = req.body;
     const newImages = req.files;
 
     const existingProduct = await ProductModel.findById(id);
@@ -245,8 +282,8 @@ export const updateProducts = async (req, res) => {
 
 // -------------------------------------------------------------------------------
 
-// Controller For Delete Products
-export const DelateProducts = async (req, res) => {
+// Controller For DeleteProducts
+export const DeleteProducts = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -287,4 +324,4 @@ export const DelateProducts = async (req, res) => {
     });
   }
 };
-// ----------------------- Controller For Delete Products end
+// ----------------------- Controller For DeleteProducts end

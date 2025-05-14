@@ -1,26 +1,26 @@
 import express from 'express';
 import { IsAdmin } from '../Middleware/Auth.Middleware.js';
 import { Upload } from '../Config/Multer.js';
-import { addProducts, updateProducts, DelateProducts, products, productsById, changeStock } from '../controllers/Products.Controller.js';
+import { addProducts, updateProducts, DeleteProducts, products, productsById, changeStock } from '../controllers/Products.Controller.js';
 
 const router = express.Router();
 
 // Add new product
-router.post("/addProducts", Upload.array("images"), IsAdmin, addProducts);
+router.post("/addProducts", Upload.array("files"), IsAdmin, addProducts);
 
 // Update product (with image replacement)
-router.put("/updateProducts/:id", Upload.array("images"), IsAdmin, updateProducts);
+router.put("/updateProducts/:id", Upload.array("files"), IsAdmin, updateProducts);
 
 // Delete product
-router.delete("/delateProducts/:id", IsAdmin, DelateProducts);
+router.delete("/delateProducts/:id", IsAdmin, DeleteProducts);
 
 // Get all products
-router.get("/products", products);
+router.get("/", products);
 
 // Get product by ID
-router.get("/products/:id", productsById);
+router.get("/:id", productsById);
 
 // Change stock status
-router.patch("/changeStock", IsAdmin, changeStock);
+router.patch("/changeStock/:id/:inStock", IsAdmin, changeStock);
 
 export default router;
