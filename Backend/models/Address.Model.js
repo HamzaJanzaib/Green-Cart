@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose"
 
 const addressSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', 
+    ref: 'User',
     required: true,
   },
   firstName: {
@@ -48,4 +48,4 @@ const addressSchema = new mongoose.Schema({
 
 const Address = mongoose.model('Address', addressSchema);
 
-module.exports = Address;
+export default Address

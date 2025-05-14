@@ -9,8 +9,9 @@ import {
     AdminRouter,
     CategorysRoutes,
     ProductsRoutes,
-    AddressRoutes
-} from './Routes/index.js';
+    AddressRoutes,
+    OrderRoutes
+} from './routes/index.js';
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ app.use("/api/admin", AdminRouter);
 app.use("/api/products", ProductsRoutes);
 app.use("/api/Category", CategorysRoutes);
 app.use("/api/Address", AddressRoutes);
+app.use("/api/Orders", OrderRoutes);
 // -------------- Routes end
 
 const startServer = async () => {
