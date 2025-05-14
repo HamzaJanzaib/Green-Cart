@@ -1,8 +1,8 @@
-const { UserModel } = require("../models/Index");
-const { hashedPassword, comparePassword, createToken } = require("../Utils/Index");
+import { UserModel } from "../models/Index.js";
+import { hashedPassword, comparePassword, createToken } from "../Utils/Index.js";
 
-// Controller For User Register 
-module.exports.registerUser = async (req, res) => {
+// Controller For User Register
+export const registerUser = async (req, res) => {
     try {
         const { fullname, email, password } = req.body;
 
@@ -48,8 +48,8 @@ module.exports.registerUser = async (req, res) => {
 };
 //------------------- Controller For User Register end
 
-// Controller For User Login 
-module.exports.loginUser = async (req, res) => {
+// Controller For User Login
+export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -110,8 +110,8 @@ module.exports.loginUser = async (req, res) => {
 };
 //-------------------- Controller For User Login end
 
-// Controller For User Logout 
-module.exports.logoutUser = async (req, res) => {
+// Controller For User Logout
+export const logoutUser = async (req, res) => {
     try {
         res.clearCookie('token', {
             httpOnly: true,
@@ -133,8 +133,8 @@ module.exports.logoutUser = async (req, res) => {
 };
 //----------------- Controller For User Logout end
 
-// Controller For User VerifyUser 
-module.exports.verifiedUser = async (req, res) => {
+// Controller For User VerifyUser
+export const verifiedUser = async (req, res) => {
     try {
         const id = req.user?.id;
         console.log(id)
@@ -170,8 +170,8 @@ module.exports.verifiedUser = async (req, res) => {
 };
 //---------------- Controller For User VerifyUser end
 
-// Controller For Admin Login 
-module.exports.adminLogin = async (req, res) => {
+// Controller For Admin Login
+export const adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -245,8 +245,8 @@ module.exports.adminLogin = async (req, res) => {
 };
 //-------------------- Controller For Admin Login end
 
-// Controller For Admin Logout 
-module.exports.logoutAdmin = async (req, res) => {
+// Controller For Admin Logout
+export const logoutAdmin = async (req, res) => {
     try {
         res.clearCookie('AdminToken', {
             httpOnly: true,
@@ -268,8 +268,8 @@ module.exports.logoutAdmin = async (req, res) => {
 };
 //------------------- Controller For Admin Logout end
 
-// Controller For Admin verifiedAdmin 
-module.exports.verifiedAdmin = async (req, res) => {
+// Controller For Admin verifiedAdmin
+export const verifiedAdmin = async (req, res) => {
     try {
         // Retrieve the admin id from the request object
         const id = req.admin?.id;

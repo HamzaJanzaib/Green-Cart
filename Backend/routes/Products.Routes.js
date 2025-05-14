@@ -1,16 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const { IsAdmin } = require('../Middleware/Auth.Middleware');
-const { Upload } = require('../Config/Multer');
+import express from 'express';
+import { IsAdmin } from '../Middleware/Auth.Middleware';
+import { Upload } from '../Config/Multer';
+import { addProducts, updateProducts, DelateProducts, products, productsById, changeStock } from '../controllers/Products.Controller';
 
-const {
-  addProducts,
-  updateProducts,
-  DelateProducts,
-  products,
-  productsById,
-  changeStock
-} = require('../controllers/Products.Controller');
+const router = express.Router();
 
 // Add new product
 router.post("/addProducts", Upload.array("images"), IsAdmin, addProducts);
@@ -30,4 +23,4 @@ router.get("/products/:id", productsById);
 // Change stock status
 router.patch("/changeStock", IsAdmin, changeStock);
 
-module.exports = router;
+export default router;

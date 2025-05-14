@@ -1,20 +1,15 @@
-const express = require('express');
-const router = express.Router();
-const { IsAdmin } = require('../Middleware/Auth.Middleware');
-const { Upload } = require('../Config/Multer');
+import express from 'express';
+import { IsAdmin } from '../Middleware/Auth.Middleware';
+import { Upload } from '../Config/Multer';
+import { Addcategory, categorys, updatecategory, Delatecategory } from '../controllers/Category.Controller';
 
-const {
-  Addcategory,
-  categorys,
-  updatecategory,
-  Delatecategory
-} = require('../controllers/Category.Controller');
+const router = express.Router();
 
 // Add new category
 router.post('/addCategory', Upload.single('image'), IsAdmin, Addcategory);
 
 // Get all categories
-router.get('/categories', categorys );
+router.get('/categories', categorys);
 
 // Update category
 router.put('/updateCategory/:id', Upload.single('image'), IsAdmin, updatecategory);
@@ -22,4 +17,4 @@ router.put('/updateCategory/:id', Upload.single('image'), IsAdmin, updatecategor
 // Delete category
 router.delete('/deleteCategory/:id', IsAdmin, Delatecategory);
 
-module.exports = router;
+export default router;

@@ -1,11 +1,11 @@
-const AuthRouter = require('./Auth.Routes')
-const AdminRouter = require('./Admin.Routes')
-const ProductsRoutes = require("./Products.Routes")
-const CategorysRoutes = require("./Category.Routes")
+import AuthRouter from './Auth.Routes';
+import AdminRouter from './Admin.Routes';
+import ProductsRoutes from './Products.Routes';
+import CategorysRoutes from './Category.Routes';
 
-module.exports ={
+export {
     AuthRouter,
     AdminRouter,
     CategorysRoutes,
     ProductsRoutes
-}
+};

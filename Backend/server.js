@@ -1,61 +1,53 @@
-const express = require('express');
-const app = express();
-require('dotenv').config();
-const port = process.env.PORT || 3000;
-
-// Import And Call DB function
-const dBconnect = require('./config/DB/ConnectDB');
-await dBconnect(process.env.MONGO_URI);
-// -------------- Import And Call DB function end
-
-// Import And Call Cloudinary function
-const ConnectCloudinary = require('./Config/cloudinary');
-await ConnectCloudinary();
-// -------------- Import And Call Cloudinary function end
-
-// import and cors config
-const cors = require('cors');
-app.use(cors(
-    {
-        origin: "http://localhost:5173", methods: [
-            "GET",
-            "POST",
-            "PUT",
-            "DELETE"
-        ], allowedHeaders: [
-            "Content-Type",
-            "Authorization",
-            "cache-Control",
-            "Expires",
-            "pragma"
-        ],
-        credentials: true
-    }
-));
-// -------------- import and cors config end
-
-// Basic For Http Data transfer
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-// -------------- Basic For Http Data transfer end
-
-// import CookieParser For Sending Cookie For Client Browser
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
-// -------------- import CookieParser For Sending Cookie For Client Browser end
-
-// imports routes and use
-const {
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import dBconnect from './config/DB/ConnectDB.js';
+import ConnectCloudinary from './Config/cloudinary.js';
+import {
     AuthRouter,
     AdminRouter,
     CategorysRoutes,
     ProductsRoutes
-} = require('./Routes/index');
+} from './Routes/index.js';
+
+dotenv.config();
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Import And Call DB function
+await dBconnect(process.env.MONGO_URI);
+// -------------- Import And Call DB function end
+
+// Import And Call Cloudinary function
+await ConnectCloudinary();
+// -------------- Import And Call Cloudinary function end
+
+// CORS configuration
+app.use(cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control", "Expires", "Pragma"],
+    credentials: true
+}));
+// -------------- CORS config end
+
+// Basic HTTP Data transfer
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// -------------- Basic HTTP Data transfer end
+
+// Cookie parser configuration
+app.use(cookieParser());
+// -------------- CookieParser end
+
+// Routes
 app.use("/api/auth/user", AuthRouter);
 app.use("/api/auth/admin", AdminRouter);
 app.use("/api/auth/products", ProductsRoutes);
 app.use("/api/auth/Category", CategorysRoutes);
-// -------------- imports routes and use end
+// -------------- Routes end
 
 const startServer = async () => {
     try {
@@ -67,14 +59,3 @@ const startServer = async () => {
 };
 
 startServer();
-
-
-
-// first Api Register ? http://localhost:8080/api/auth/user/register Post Api
-// first Api Login ? http://localhost:8080/api/auth/user/Login Post Api
-// first Api Logout ? http://localhost:8080/api/auth/user/Logout get Api
-// first Api checkauth uservalid or not ? http://localhost:8080/api/auth/user/check-auth get Api
-
-
-// first Api Admin-login ? http://localhost:8080/api/auth/admin/login Post Api
-// first Api logoutAdmin ? http://localhost:8080/api/auth/admin/logout get Api

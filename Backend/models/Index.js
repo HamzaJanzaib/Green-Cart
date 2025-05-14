@@ -1,8 +1,9 @@
-const UserModel = require("./Users.Model");
-const ProductModel = require("./Products.model")
-const CategoryModel = require("./Category.model")
-module.exports = {
+import UserModel from './Users.Model';
+import ProductModel from './Products.model';
+import CategoryModel from './Category.model';
+
+export {
     UserModel,
     CategoryModel,
     ProductModel
-}
+};

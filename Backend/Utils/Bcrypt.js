@@ -1,10 +1,10 @@
-const bcrypt = require("bcrypt"); // Import the bcrypt module
-const dotenv = require("dotenv");
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
 dotenv.config();
 
 const saltRounds = parseInt(process.env.BCRYPT_SALT) || 10;
 
-module.exports.hashedPassword = async (password) => {
+export const hashedPassword = async (password) => {
     try {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         return hashedPassword;
@@ -14,7 +14,7 @@ module.exports.hashedPassword = async (password) => {
     }
 }
 
-module.exports.comparePassword = async (password, userPassword) => {
+export const comparePassword = async (password, userPassword) => {
     try {
         const isMatch = await bcrypt.compare(password, userPassword);
         return isMatch;

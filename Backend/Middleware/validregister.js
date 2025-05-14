@@ -1,4 +1,4 @@
-module.exports.validregister = (req, res, next) => {
+export const validregister = (req, res, next) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     const { firstname, email, password } = req.body;
@@ -34,7 +34,7 @@ module.exports.validregister = (req, res, next) => {
     next();
 };
 
-module.exports.validlogin = (req, res, next) => {
+export const validlogin = (req, res, next) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const { email, password } = req.body;
 

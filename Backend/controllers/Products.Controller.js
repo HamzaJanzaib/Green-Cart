@@ -1,10 +1,9 @@
-const Cloudinary = require('cloudinary').v2;
-const { extractPublicId } = require('../Config/Helper');
-// Controller For Addproducts
-const {ProductModel , CategoryModel} = require('../models/Index');
+import { v2 as Cloudinary } from 'cloudinary'; // Cloudinary v2 import for ESM
+import { extractPublicId } from '../Config/Helper.js';
+import { ProductModel, CategoryModel } from '../models/Index.js';
 
 // Controller For Add Products
-module.exports.addProducts = async (req, res) => {
+export const addProducts = async (req, res) => {
   try {
     const productsData = JSON.parse(req.body.productsData);
     const images = req.files;
@@ -55,13 +54,13 @@ module.exports.addProducts = async (req, res) => {
       error: error.message
     });
   }
-};  
-// ----------------------- Controller For Addproducts end
+};
+// ----------------------- Controller For Add Products end
 
 // -------------------------------------------------------------------------------
 
-// Controller For products
-module.exports.products = async (req, res) => {
+// Controller For Products
+export const products = async (req, res) => {
   try {
     // Fetch all products from the database
     const products = await ProductModel.find().populate('category', 'text'); // Populate category name
@@ -80,13 +79,12 @@ module.exports.products = async (req, res) => {
     });
   }
 };
-// ----------------------- Controller For products end
+// ----------------------- Controller For Products end
 
 // -------------------------------------------------------------------------------
 
-
-// Controller For productsById
-module.exports.productsById = async (req, res) => {
+// Controller For Products By ID
+export const productsById = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -113,12 +111,12 @@ module.exports.productsById = async (req, res) => {
     });
   }
 };
-// ----------------------- Controller For productsById end
+// ----------------------- Controller For Products By ID end
 
 // -------------------------------------------------------------------------------
 
-// Controller For changeStock
-module.exports.changeStock = async (req, res) => {
+// Controller For Change Stock
+export const changeStock = async (req, res) => {
   try {
     const { id, inStock } = req.body;
 
@@ -157,12 +155,12 @@ module.exports.changeStock = async (req, res) => {
     });
   }
 };
-// ----------------------- Controller For changeStock end
+// ----------------------- Controller For Change Stock end
 
 // -------------------------------------------------------------------------------
 
-// Controller For updateProducts
-module.exports.updateProducts = async (req, res) => {
+// Controller For Update Products
+export const updateProducts = async (req, res) => {
   try {
     const { id, name, description, price, offerPrice, category, inStock } = req.body;
     const newImages = req.files;
@@ -243,13 +241,12 @@ module.exports.updateProducts = async (req, res) => {
     });
   }
 };
-// ----------------------- Controller For updateProducts end
+// ----------------------- Controller For Update Products end
 
 // -------------------------------------------------------------------------------
 
-
-// Controller For DeleteProducts
-module.exports.DelateProducts = async (req, res) => {
+// Controller For Delete Products
+export const DelateProducts = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -290,4 +287,4 @@ module.exports.DelateProducts = async (req, res) => {
     });
   }
 };
-// ----------------------- Controller For DeleteProducts end
+// ----------------------- Controller For Delete Products end
