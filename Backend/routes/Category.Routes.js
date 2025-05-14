@@ -6,13 +6,13 @@ import { Addcategory, categorys, updatecategory, Delatecategory } from '../contr
 const router = express.Router();
 
 // Add new category
-router.post('/addCategory', Upload.single('image'), IsAdmin, Addcategory);
+router.post('/addCategory', Upload.single('file'), IsAdmin, Addcategory);
 
 // Get all categories
 router.get('/', categorys);
 
 // Update category
-router.put('/updateCategory/:id', Upload.single('image'), IsAdmin, updatecategory);
+router.put('/updateCategory/:id', Upload.single('file'), IsAdmin, updatecategory);
 
 // Delete category
 router.delete('/deleteCategory/:id', IsAdmin, Delatecategory);

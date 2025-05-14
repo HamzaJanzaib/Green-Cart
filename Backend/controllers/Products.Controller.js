@@ -108,7 +108,6 @@ export const products = async (req, res) => {
 export const productsById = async (req, res) => {
   try {
     const { id } = req.params;
-
     const product = await ProductModel.findById(id).populate('category', 'text');
 
     if (!product) {
@@ -117,7 +116,6 @@ export const productsById = async (req, res) => {
         message: 'Product not found',
       });
     }
-
     res.status(200).json({
       success: true,
       message: 'Product fetched successfully',
