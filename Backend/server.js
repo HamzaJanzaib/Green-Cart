@@ -46,10 +46,15 @@ app.use(cookieParser());
 
 // imports routes and use
 const {
-     AuthRouter,
-    AdminRouter } = require('./Routes/index');
+    AuthRouter,
+    AdminRouter,
+    CategorysRoutes,
+    ProductsRoutes
+} = require('./Routes/index');
 app.use("/api/auth/user", AuthRouter);
 app.use("/api/auth/admin", AdminRouter);
+app.use("/api/auth/products", ProductsRoutes);
+app.use("/api/auth/Category", CategorysRoutes);
 // -------------- imports routes and use end
 
 const startServer = async () => {
