@@ -5,8 +5,13 @@ const port = process.env.PORT || 3000;
 
 // Import And Call DB function
 const dBconnect = require('./config/DB/ConnectDB');
-dBconnect(process.env.MONGO_URI);
+await dBconnect(process.env.MONGO_URI);
 // -------------- Import And Call DB function end
+
+// Import And Call Cloudinary function
+const ConnectCloudinary = require('./Config/cloudinary');
+await ConnectCloudinary();
+// -------------- Import And Call Cloudinary function end
 
 // import and cors config
 const cors = require('cors');
