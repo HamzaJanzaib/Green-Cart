@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { dummyProducts } from "../assets/assets";
 import toast from "react-hot-toast";
+import { BASE_URL } from "../config/config";
 
 export const AppContext = createContext();
 
@@ -98,7 +99,8 @@ export const AppContextProvider = ({ children }) => {
         SearchQuary,
         setSearchQuary,
         getCartTotalAmount,
-        geTCartCount
+        geTCartCount,
+        BASE_URL
     };
 
     return (
