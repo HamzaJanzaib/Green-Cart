@@ -23,7 +23,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         enum: ['admin', 'user'],
         default: 'user',
-    }
+    },
+    addresses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Address', 
+    }],
 }, { minimize: false, timestamps: true });
 
 export default mongoose.model('User', UserSchema);

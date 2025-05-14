@@ -3,14 +3,12 @@ import { verifyToken } from '../Utils/Index.js';
 
 export const authMiddleware = async (req, res, next) => {
     const token = req.cookies.token;
-
     if (!token) {
         return res.status(401).json({
             success: false,
             message: 'Unauthorized: No token provided'
         });
     }
-
     try {
         const decoded = await verifyToken(token);
         req.user = { id: decoded.id };
