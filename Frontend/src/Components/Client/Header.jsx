@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { assets } from "../../assets/assets";
 import { useAppContext } from '../../context/AppContext';
+import toast from 'react-hot-toast';
+import { logoutUser } from '../../Services/Auth/Logout';
 
 const Header = () => {
     const [open, setOpen] = useState(false);
@@ -18,11 +20,20 @@ const Header = () => {
         getCartCount
     } = useAppContext();
 
-    const LogoutUser = () => {
-        setUser(null);
-        setDropdownOpen(false);
-        setOpen(false);
-        navigate("/");
+    const LogoutUser = async () => {
+        try {
+            const data = await logoutUser();
+            if (data.success) {
+                setUser(null);
+                toast.success(data.message || "Logout successful!");
+                navigate("/");
+            } else {
+                toast.error(data?.message || "Logout failed.");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("An error occurred during logout.");
+        }
     };
 
     useEffect(() => {

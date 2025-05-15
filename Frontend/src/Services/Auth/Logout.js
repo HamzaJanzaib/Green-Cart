@@ -4,7 +4,7 @@ import { API_ENDPOINTS } from '../../config/config';
 export const logoutUser = async () => {
   try {
     const data = await fetchUtil(API_ENDPOINTS.LOGOUT, {
-      method: 'POST',
+      method: 'GET',
       credentials: 'include', // important for cookie-based auth
     });
 
