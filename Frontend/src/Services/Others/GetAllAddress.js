@@ -3,7 +3,7 @@ import { API_ENDPOINTS } from '../../config/config';
 
 export const getAddress = async () => {
   try {
-    const data = await fetchUtil(API_ENDPOINTS.GETUSERADDRESS(), {
+    const data = await fetchUtil(API_ENDPOINTS.GETUSERADDRESS, {
       method: 'GET',
       credentials: 'include', 
     });

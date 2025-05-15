@@ -1,7 +1,12 @@
 import React from 'react';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+
+// Layout Components
 import { Header, Footer, Login } from './Components/Client/Index';
 import { ProtectedRoute } from './Components/Admin/index';
-import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
+
+// Client Pages
 import {
   Home,
   AllProducts,
@@ -12,35 +17,39 @@ import {
   MyOrders,
   AdminLogin,
   AdminLayout,
-  ErrorPage
+  ErrorPage,
+  Profile,
+  ProfileInfo,
+  AboutUs,
+  ChatWidget
 } from './pages/Index';
 
+// Admin Pages
 import {
   Dashboard,
   AddProducts,
   Products,
   Orders,
   Setting,
-  Chat
+  Chat,
 } from './pages/Admin/Index';
 
-import { Toaster } from 'react-hot-toast';
 import { useAppContext } from './context/AppContext';
 
 const App = () => {
   const location = useLocation();
-  const isSellerPath = location.pathname.includes('admin');
+  const isSellerPath = location.pathname.includes('/admin');
   const { ShowUserLogin, isSeller, loading } = useAppContext();
 
-  // Loader screen blocks the rest of the app
+  // Show loading screen while initializing
   if (loading) {
     return (
       <>
         <Toaster />
-        <div className='flex items-center justify-center h-screen'>
+        <div className='flex items-center justify-center h-screen bg-white'>
           <img
-            src="https://www.movingtree.com.ar/images/loader.gif"
-            alt="loader"
+            src='https://www.movingtree.com.ar/images/loader.gif'
+            alt='loader'
             className='h-20 w-20'
           />
         </div>
@@ -49,24 +58,28 @@ const App = () => {
   }
 
   return (
-    <div className='text-default min-h-screen text-gray-700 bg-white'>
+    <div className='text-gray-700 bg-white min-h-screen'>
       <Toaster />
       {!isSellerPath && <Header />}
       {ShowUserLogin && <Login />}
 
-      <div className={`${isSellerPath ? '' : 'px-6 md:px-16 lg:px-24 xl:px-32'}`}>
+      <div className={`${isSellerPath ? '' : 'px-4 md:px-16 lg:px-24 xl:px-32'}`}>
         <Routes>
           {/* Client Routes */}
           <Route path='/' element={<Home />} />
-          <Route path='/Products' element={<AllProducts />} />
-          <Route path='/Products/:category' element={<ProductsCategory />} />
-          <Route path='/Products/:category/:id' element={<ProductsDetails />} />
+          <Route path='/products' element={<AllProducts />} />
+          <Route path='/products/:category' element={<ProductsCategory />} />
+          <Route path='/products/:category/:id' element={<ProductsDetails />} />
           <Route path='/cart' element={<Cart />} />
-          <Route path='/add-address' element={<AddAddress />} />
-          <Route path='/My-Orders' element={<MyOrders />} />
+          <Route path='/about' element={<AboutUs />} />
+          <Route path='/profile' element={<Profile />}>
+            <Route index element={<ProfileInfo />} />
+            <Route path='add-address' element={<AddAddress />} />
+            <Route path='Order-Histry' element={<MyOrders />} />
+          </Route>
           <Route path='*' element={<ErrorPage />} />
 
-          {/* Admin Routes */}
+          {/* Admin Routes (Protected) */}
           <Route
             path='/admin'
             element={
@@ -76,11 +89,11 @@ const App = () => {
             }
           >
             <Route index element={<Dashboard />} />
-            <Route path='Add-Products' element={<AddProducts />} />
-            <Route path='Products-list' element={<Products />} />
-            <Route path='Orders' element={<Orders />} />
-            <Route path='Chats' element={<Chat />} />
-            <Route path='Setting' element={<Setting />} />
+            <Route path='add-products' element={<AddProducts />} />
+            <Route path='products-list' element={<Products />} />
+            <Route path='orders' element={<Orders />} />
+            <Route path='chats' element={<Chat />} />
+            <Route path='setting' element={<Setting />} />
           </Route>
 
           {/* Admin Login */}
@@ -92,6 +105,7 @@ const App = () => {
       </div>
 
       {!isSellerPath && <Footer />}
+      {!isSellerPath && <ChatWidget />}
     </div>
   );
 };

@@ -8,7 +8,10 @@ import MyOrders from "./MyOrders";
 import AdminLogin from "./Admin/AdminLogin";
 import AdminLayout from "./Admin/AdminLayout";
 import ErrorPage from "./ErrorPage";
-
+import Profile from "./Profile"
+import ProfileInfo from './ProfileInfo';
+import AboutUs from "./AboutUs";
+import ChatWidget from "./ChatWidget";
 
 export {
     Home,
@@ -20,5 +23,9 @@ export {
     MyOrders,
     AdminLogin,
     AdminLayout,
-    ErrorPage
+    ErrorPage,
+    Profile,
+    ProfileInfo,
+    AboutUs,
+    ChatWidget
 }

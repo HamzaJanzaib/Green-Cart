@@ -317,3 +317,44 @@ export const verifiedAdmin = async (req, res) => {
     }
 };
 //---------------- Controller For Admin verifiedAdmin end
+
+
+export const getProfile = async (req, res) => {
+    try {
+        const userId = req.user?.id;
+        console.log("getprofile " + userId)
+
+        if (!userId) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized: User ID missing from token",
+            });
+        }
+
+        const user = await UserModel.findById(userId)
+            .select("-password")
+
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "User profile fetched successfully",
+            data: user,
+        });
+    } catch (error) {
+        console.error("Error in getProfile:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
+    }
+};
+
+
+

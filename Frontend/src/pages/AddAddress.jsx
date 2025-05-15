@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/assets'
 import { InputFeild } from '../Components/Client/Index'
+import toast from 'react-hot-toast';
+import { useAppContext } from '../context/AppContext';
+import { addAddress } from '../Services/Others/AddAddress';
 
 const AddAddress = () => {
     const [address, setAddress] = useState({
@@ -13,7 +16,9 @@ const AddAddress = () => {
         zipcode: "",
         country: "",
         phone: "",
-    })
+    });
+    const { navigate } = useAppContext();
+    const [loading, setloading] = useState(false)
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -23,11 +28,57 @@ const AddAddress = () => {
         }))
     }
 
-    const onSubmitHandler = async (e) => {
-        e.preventDefault()
-        console.log("Submitted Address:", address)
-        // Submit logic here
-    }
+    const handleAddressSubmit = async (e) => {
+        e.preventDefault();
+
+        // Simple validation
+        if (
+            !address.firstName ||
+            !address.lastName ||
+            !address.email ||
+            !address.street ||
+            !address.city ||
+            !address.state ||
+            !address.zipcode ||
+            !address.country ||
+            !address.phone
+        ) {
+            toast.error("Please fill in all required fields.");
+            return;
+        }
+
+        try {
+            setloading(true);
+
+            const AddressDetails = {
+                firstName: address.firstName,
+                lastName: address.lastName,
+                email: address.email,
+                street: address.street,
+                city: address.city,
+                state: address.state,
+                zipcode: address.zipcode,
+                country: address.country,
+                phoneNumber: address.phone,
+            };
+
+            const data = await addAddress(AddressDetails);
+            console.log(data);
+
+            if (data.success) {
+                toast.success(data.message || "Address saved successfully!");
+                navigate("/profile");
+            } else {
+                toast.error(data?.message || "Address submission failed.");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Something went wrong. Please try again.");
+        } finally {
+            setloading(false);
+        }
+    };
+
 
     return (
         <div className='mt-16 pb-16'>
@@ -35,7 +86,7 @@ const AddAddress = () => {
                 Add Shipping <span className='text-primary font-semibold'>Address</span>
             </p>
             <div className='flex flex-col-reverse md:flex-row justify-between mt-20'>
-                <form onSubmit={onSubmitHandler} className='space-y-4 mt-6 text-sm w-full md:w-2/5'>
+                <form onSubmit={handleAddressSubmit} className='space-y-4 mt-6 text-sm w-full md:w-2/5'>
                     <div className='grid grid-cols-2 gap-4'>
                         <InputFeild handlechange={handleChange} address={address} name="firstName" type="text" placeholder="First Name" />
                         <InputFeild handlechange={handleChange} address={address} name="lastName" type="text" placeholder="Last Name" />
@@ -52,7 +103,10 @@ const AddAddress = () => {
                         <InputFeild handlechange={handleChange} address={address} name="country" type="text" placeholder="Country" />
                     </div>
                     <button type="submit" className='mt-4 bg-primary hover:bg-primary-dull text-white py-2 px-6 rounded'>
-                        Save Address
+                        {
+                            loading ? <>loading...</> : <>Save Address</>
+                        }
+
                     </button>
                 </form>
 

@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import { BASE_URL } from "../config/config";
 import { checkAuthAdmin } from "../Services/Auth/AdminCheck-Auth";
 import { checkAuthUser } from "../Services/Auth/Check-user-auth";
+import { getProfile } from "../Services/Others/GetProfile";
+import { getAddress } from "../Services/Others/GetAllAddress";
 
 export const AppContext = createContext();
 
@@ -20,6 +22,8 @@ export const AppContextProvider = ({ children }) => {
     const [Products, setProducts] = useState([]);
     const [CartItems, setCartItems] = useState({});
     const [SearchQuary, setSearchQuary] = useState({});
+    const [UserDetails, setUserDetails] = useState({});
+    const [userAddress, setuserAddress] = useState({});
 
     const fetchAdmin = async () => {
         try {
@@ -43,6 +47,53 @@ export const AppContextProvider = ({ children }) => {
             setLoading(false);
         }
     };
+    const getUserProfile = async () => {
+        try {
+            setLoading(true);
+
+            const data = await getProfile();
+
+            if (data?.success) {
+                setUserDetails(data.data);
+                if (data.data.role === "admin") {
+                    setIsSeller(true);
+                }
+            } else {
+                toast.error(data.message || "Failed to fetch user profile");
+            }
+
+        } catch (error) {
+            console.error("getUserProfile error:", error);
+            setIsSeller(false);
+            toast.error("Error fetching user profile");
+        } finally {
+            setLoading(false);
+        }
+    };
+    const getUserAddress = async () => {
+        try {
+            setLoading(true);
+
+            const data = await getAddress();
+
+            if (data?.success) {
+                setuserAddress(data.data);
+                if (data.data.role === "admin") {
+                    setIsSeller(true);
+                }
+            } else {
+                toast.error(data.message || "Failed to fetch user profile");
+            }
+
+        } catch (error) {
+            console.error("getUserProfile error:", error);
+            setIsSeller(false);
+            toast.error("Error fetching user profile");
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     const fetchUser = async () => {
         try {
@@ -70,6 +121,8 @@ export const AppContextProvider = ({ children }) => {
 
     useEffect(() => {
         fetchUser();
+        getUserProfile();
+        getUserAddress();
         if (location.pathname.includes("/admin")) {
             fetchAdmin();
         }
@@ -153,6 +206,8 @@ export const AppContextProvider = ({ children }) => {
         getCartCount,
         BASE_URL,
         loading,
+        UserDetails,
+        userAddress
     };
 
     return (

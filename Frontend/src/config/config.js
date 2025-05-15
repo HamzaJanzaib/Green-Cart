@@ -5,6 +5,7 @@ export const API_ENDPOINTS = {
   REGISTER: "/user/register",
   LOGIN: "/user/login",
   LOGOUT: "/user/logout",
+  GETPROFILE: "/user/profile",
   CHECK_AUTH: "/user/check-auth",
   ADMINLOGIN: "/admin/login",
   ADMINLOGOUT: "/admin/logout",

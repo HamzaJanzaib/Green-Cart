@@ -15,33 +15,33 @@ const AdminLogin = () => {
     const [loading, setloading] = useState(false);
 
     const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-        setloading(true);
+        e.preventDefault();
+        try {
+            setloading(true);
 
-        const formdata = {
-            email,
-            password,
-        };
+            const formdata = {
+                email,
+                password,
+            };
 
-        const data = await loginAdmin(formdata);
-        console.log(data);
+            const data = await loginAdmin(formdata);
+            console.log(data);
 
-        if (data.success) {
-            toast.success(data.message || "Login successful!");
-            setIsSeller(true);
-            navigate("/admin");
-        } else {
-            toast.error(data?.message || "Login failed. Please check your credentials.");
+            if (data.success) {
+                toast.success(data.message || "Login successful!");
+                setIsSeller(true);
+                navigate("/admin");
+            } else {
+                toast.error(data?.message || "Login failed. Please check your credentials.");
+            }
+
+        } catch (error) {
+            console.error(error);
+            toast.error("Something went wrong. Please try again.");
+        } finally {
+            setloading(false); // Ensures loading stops regardless of success or error
         }
-
-    } catch (error) {
-        console.error(error);
-        toast.error("Something went wrong. Please try again.");
-    } finally {
-        setloading(false); // Ensures loading stops regardless of success or error
-    }
-};
+    };
 
 
     useEffect(() => {

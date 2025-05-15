@@ -7,6 +7,7 @@ import NewsLetter from "./NewsLetter";
 import Footer from "./Footer";
 import Login from "./Login";
 import InputFeild from "./InputFeild";
+import ProfilesideBar from './ProfilesideBar';
 
 export {
     Header,
@@ -17,5 +18,6 @@ export {
     NewsLetter,
     Footer,
     Login,
-    InputFeild
+    InputFeild,
+    ProfilesideBar
 }
