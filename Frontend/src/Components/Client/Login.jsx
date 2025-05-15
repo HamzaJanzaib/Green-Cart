@@ -9,12 +9,14 @@ const Login = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setloading] = useState(false);
     const { setShowUserLogin, setUser } = useAppContext();
 
     const onSubmithandler = async (e) => {
         e.preventDefault();
         try {
             const formdata = { email, password, ...(state === "register" && { fullname: name }) };
+            setloading(true);
 
             const data = state === "login"
                 ? await loginUser(formdata)
@@ -22,6 +24,7 @@ const Login = () => {
 
             if (data.success) {
                 toast.success(data.message || (state === "login" ? "Login successful!" : "Registration successful!"));
+
                 if (state === "login") {
                     setUser(true);
                     setShowUserLogin(false);
@@ -34,9 +37,10 @@ const Login = () => {
         } catch (error) {
             console.error(error);
             toast.error("Something went wrong. Please try again.");
+        } finally {
+            setloading(false); // Always stop loading at the end
         }
     };
-
     return (
         <div onClick={() => setShowUserLogin(false)} className='fixed top-0 bottom-0 right-0 z-30 flex items-center text-sm text-gray-600 bg-black/50 w-full'>
             <form onSubmit={onSubmithandler} onClick={(e) => e.stopPropagation()} className="flex flex-col gap-4 m-auto items-start p-8 py-12 w-80 sm:w-[352px] rounded-lg shadow-xl border border-gray-200 bg-white">
@@ -65,7 +69,9 @@ const Login = () => {
                     )}
                 </p>
                 <button type="submit" className="bg-primary hover:bg-primary-dull transition-all text-white w-full py-2 rounded-md cursor-pointer">
-                    {state === "register" ? "Create Account" : "Login"}
+                    {
+                        loading ? <>Loading.....</> : <> {state === "register" ? "Create Account" : "Login"}</>
+                    }
                 </button>
             </form>
         </div>

@@ -12,7 +12,7 @@ const Cart = () => {
     CartItems,
     navigate,
     getCartTotalAmount,
-    geTCartCount,
+    getCartCount,
   } = useAppContext();
 
   const [Address, setAddress] = useState(dummyAddress);
@@ -48,7 +48,7 @@ const Cart = () => {
     <div className="flex flex-col md:flex-row mt-24">
       <div className="flex-1 max-w-4xl">
         <h1 className="text-3xl font-medium mb-6">
-          Shopping Cart <span className="text-sm text-primary">{geTCartCount()} Items</span>
+          Shopping Cart <span className="text-sm text-primary">{getCartCount()} Items</span>
         </h1>
 
         <div className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 text-base font-medium pb-3">

@@ -18,6 +18,7 @@ const MainProducts = () => {
     description: "",
   });
   const [errors, setErrors] = useState({});
+  const [Loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -26,6 +27,7 @@ const MainProducts = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     let formErrors = {};
     if (!formData.name) formErrors.name = "Product name is required";
@@ -34,7 +36,11 @@ const MainProducts = () => {
     if (!formData.category) formErrors.category = "Category is required";
 
     setErrors(formErrors);
-    if (Object.keys(formErrors).length > 0) return;
+
+    if (Object.keys(formErrors).length > 0) {
+      setLoading(false); // 🛠 Stop loading if validation fails
+      return;
+    }
 
     const payload = new FormData();
     payload.append("name", formData.name);
@@ -72,8 +78,11 @@ const MainProducts = () => {
     } catch (error) {
       console.error(error);
       toast.error("An error occurred while adding the product.");
+    } finally {
+      setLoading(false); // ✅ Always stop loading at the end
     }
   };
+
 
   return (
     <div className="no-scrollbar py-10 flex-1 h-[90vh] flex overflow-y-scroll flex-col justify-between bg-[#F9FAFB]">
@@ -148,9 +157,13 @@ const MainProducts = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="px-8 py-2.5 bg-primary hover:bg-primary-dull text-[#F9FAFB] font-medium rounded"
+          className="px-8 py-2.5 bg-primary hover:bg-primary-dull text-[#F9FAFB] font-medium rounded cursor-pointer"
         >
-          Add Product
+          {
+            Loading ?
+              <>loading....</> :
+              <>  Add Product</>
+          }
         </button>
       </form>
     </div>
