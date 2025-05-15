@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Header, Footer, Login } from './Components/Client/Index';
-import { ProtectedRoute } from './Components/Admin/Index';
+import { ProtectedRoute } from './Components/Admin/index';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import {
   Home,
@@ -30,13 +30,29 @@ import { useAppContext } from './context/AppContext';
 const App = () => {
   const location = useLocation();
   const isSellerPath = location.pathname.includes('admin');
-  const { ShowUserLogin, isSeller } = useAppContext();
+  const { ShowUserLogin, isSeller, loading } = useAppContext();
+
+  // Loader screen blocks the rest of the app
+  if (loading) {
+    return (
+      <>
+        <Toaster />
+        <div className='flex items-center justify-center h-screen'>
+          <img
+            src="https://www.movingtree.com.ar/images/loader.gif"
+            alt="loader"
+            className='h-20 w-20'
+          />
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className='text-default min-h-screen text-gray-700 bg-white'>
+      <Toaster />
       {!isSellerPath && <Header />}
       {ShowUserLogin && <Login />}
-      <Toaster />
 
       <div className={`${isSellerPath ? '' : 'px-6 md:px-16 lg:px-24 xl:px-32'}`}>
         <Routes>
@@ -50,11 +66,15 @@ const App = () => {
           <Route path='/My-Orders' element={<MyOrders />} />
           <Route path='*' element={<ErrorPage />} />
 
-          <Route path='/admin' element={
-            <ProtectedRoute>
-              <AdminLayout />
-            </ProtectedRoute>
-          }>
+          {/* Admin Routes */}
+          <Route
+            path='/admin'
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<Dashboard />} />
             <Route path='Add-Products' element={<AddProducts />} />
             <Route path='Products-list' element={<Products />} />
@@ -62,11 +82,12 @@ const App = () => {
             <Route path='Chats' element={<Chat />} />
             <Route path='Setting' element={<Setting />} />
           </Route>
-          <Route path='/admin-login' element={<AdminLogin />} />
 
-
-          {/* Admin Login Page (outside layout) */}
-          <Route path='/admin-login' element={isSeller ? <Navigate to="/admin" /> : <AdminLogin />} />
+          {/* Admin Login */}
+          <Route
+            path='/admin-login'
+            element={isSeller ? <Navigate to='/admin' /> : <AdminLogin />}
+          />
         </Routes>
       </div>
 

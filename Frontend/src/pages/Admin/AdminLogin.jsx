@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
+import { loginAdmin } from '../../Services/Auth/AdminLogin';
+import toast from 'react-hot-toast';
 
 const AdminLogin = () => {
     const {
@@ -11,10 +13,29 @@ const AdminLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        setIsSeller(true)
-        console.log("Admin login:", { email, password });
+        try {
+            const formdata = {
+                email,
+                password,
+            };
+
+            const data = await loginAdmin(formdata); // await the promise
+            console.log(data);
+
+            if (data.success) {
+                toast.success(data.message || "Login successful!");
+                setIsSeller(true);
+                navigate("/admin");
+            } else {
+                toast.error(data?.message || "Login failed. Please check your credentials.");
+            }
+
+        } catch (error) {
+            console.error(error);
+            toast.error("Something went wrong. Please try again.");
+        }
     };
 
     useEffect(() => {

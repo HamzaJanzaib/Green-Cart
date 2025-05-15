@@ -1,28 +1,84 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { dummyProducts } from "../assets/assets";
 import toast from "react-hot-toast";
 import { BASE_URL } from "../config/config";
+import { checkAuthAdmin } from "../Services/Auth/AdminCheck-Auth";
+import { checkAuthUser } from "../Services/Auth/Check-user-auth";
 
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
     const currency = import.meta.env.VITE_CURRENCY;
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [user, setUser] = useState(false);
     const [isSeller, setIsSeller] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [ShowUserLogin, setShowUserLogin] = useState(false);
     const [Products, setProducts] = useState([]);
     const [CartItems, setCartItems] = useState({});
     const [SearchQuary, setSearchQuary] = useState({});
 
-    // Fetch products on load
+    const fetchAdmin = async () => {
+        try {
+            setLoading(true);
+            const data = await checkAuthAdmin();
+            if (data.success) {
+                if (!isSeller) {
+                    setIsSeller(true);
+                }
+            } else {
+                if (isSeller) {
+                    toast.error("Not authorized as admin");
+                }
+                setIsSeller(false);
+            }
+        } catch (error) {
+            console.error(error);
+            setIsSeller(false);
+            toast.error("Error checking admin auth");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchUser = async () => {
+        try {
+            setLoading(true);
+            const data = await checkAuthUser();
+
+            if (data.success) {
+                if (!user) {
+                    setUser(true);
+                }
+            } else {
+                if (user) {
+                    toast.error(data.message || "User not authorized");
+                }
+                setUser(false);
+            }
+        } catch (error) {
+            console.error(error);
+            setUser(false);
+            toast.error("Error checking user authentication");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchUser();
+        if (location.pathname.includes("/admin")) {
+            fetchAdmin();
+        }
+    }, []);
+
     useEffect(() => {
         setProducts(dummyProducts);
     }, []);
 
-    // Load CartItems from localStorage on first render
     useEffect(() => {
         const storedCart = localStorage.getItem("cartItems");
         if (storedCart) {
@@ -34,7 +90,6 @@ export const AppContextProvider = ({ children }) => {
         }
     }, []);
 
-    // Save CartItems to localStorage on every update
     useEffect(() => {
         localStorage.setItem("cartItems", JSON.stringify(CartItems));
     }, [CartItems]);
@@ -46,9 +101,9 @@ export const AppContextProvider = ({ children }) => {
         toast.success("Added to cart");
     };
 
-    const updateCartsItems = async (itemId, Quantity) => {
+    const updateCartsItems = async (itemId, quantity) => {
         const updatedCart = { ...CartItems };
-        updatedCart[itemId] = Quantity;
+        updatedCart[itemId] = quantity;
         setCartItems(updatedCart);
         toast.success("Cart updated");
     };
@@ -63,18 +118,14 @@ export const AppContextProvider = ({ children }) => {
         }
     };
 
-    const geTCartCount = () => {
-        let totalCount = 0;
-        for (const item in CartItems) {
-            totalCount += CartItems[item];
-        }
-        return totalCount;
+    const getCartCount = () => {
+        return Object.values(CartItems).reduce((acc, curr) => acc + curr, 0);
     };
 
     const getCartTotalAmount = () => {
         let totalAmount = 0;
         for (const itemId in CartItems) {
-            const product = Products.find(product => product._id === itemId);
+            const product = Products.find(p => p._id === itemId);
             if (product) {
                 totalAmount += product.offerPrice * CartItems[itemId];
             }
@@ -99,8 +150,9 @@ export const AppContextProvider = ({ children }) => {
         SearchQuary,
         setSearchQuary,
         getCartTotalAmount,
-        geTCartCount,
-        BASE_URL
+        getCartCount,
+        BASE_URL,
+        loading,
     };
 
     return (

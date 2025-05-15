@@ -6,11 +6,11 @@ const router = express.Router();
 
 router.post('/add',authMiddleware, addAddress);
 
-router.get('/:userId',authMiddleware, getAddress);
+router.get('/',authMiddleware, getAddress);
 
 router.put('/update', authMiddleware , updateAddress);
 
-router.delete('/:userId/:addressId', authMiddleware ,deleteAddress);
+router.delete('/:addressId', authMiddleware ,deleteAddress);
 
 
 export default router;

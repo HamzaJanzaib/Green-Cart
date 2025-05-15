@@ -2,20 +2,19 @@ import fetchUtil from '../../utils/fetchUtil';
 import { API_ENDPOINTS } from '../../config/config';
 
 
-
-export const loginUser = async (credentials) => {
+export const loginAdmin = async (credentials) => {
   try {
-    const data = await fetchUtil(API_ENDPOINTS.LOGIN, {
+    const data = await fetchUtil(API_ENDPOINTS.ADMINLOGIN, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include', // important for sending/receiving cookies
+      credentials: 'include', 
       body: JSON.stringify(credentials),
     });
 
-    return data;
+    return data; // Should contain admin info or token
   } catch (error) {
-    throw new Error('Login failed: ' + error.message);
+    throw new Error('Admin login failed: ' + error.message);
   }
 };

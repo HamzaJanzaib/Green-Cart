@@ -3,7 +3,8 @@ import { AddressModel } from "../models/Index.js"
 // Controller For addAddress
 export const addAddress = async (req, res) => {
   try {
-    const { userId, firstName, lastName, email, street, city, state, zipcode, country, phoneNumber } = req.body;
+    const userId = req.user?.id;
+    const { firstName, lastName, email, street, city, state, zipcode, country, phoneNumber } = req.body;
 
     // Validate the input data
     if (!userId || !firstName || !lastName || !email || !street || !city || !state || !zipcode || !country || !phoneNumber) {
@@ -47,7 +48,7 @@ export const addAddress = async (req, res) => {
 // Controller For getAddress
 export const getAddress = async (req, res) => {
   try {
-    const { userId } = req.params; 
+    const userId = req.user?.id;
     const address = await AddressModel.findOne({ userId });
 
     if (!address) {
@@ -76,7 +77,8 @@ export const getAddress = async (req, res) => {
 // Controller For updateAddress
 export const updateAddress = async (req, res) => {
   try {
-    const { userId, addressId, firstName, lastName, email, street, city, state, zipcode, country, phoneNumber } = req.body;
+    const userId = req.user?.id;
+    const { addressId, firstName, lastName, email, street, city, state, zipcode, country, phoneNumber } = req.body;
 
     if (!userId || !addressId) {
       return res.status(400).json({
@@ -125,8 +127,8 @@ export const updateAddress = async (req, res) => {
 // Controller For deleteAddress
 export const deleteAddress = async (req, res) => {
   try {
-    const { userId, addressId } = req.params;
-
+    const { addressId } = req.params;
+    const userId = req.user?.id;
     // Find and delete the address by userId and addressId
     const deletedAddress = await AddressModel.findOneAndDelete({ userId, _id: addressId });
 

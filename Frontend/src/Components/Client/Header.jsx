@@ -15,7 +15,7 @@ const Header = () => {
         navigate,
         setSearchQuary,
         SearchQuary,
-        geTCartCount
+        getCartCount
     } = useAppContext();
 
     const LogoutUser = () => {
@@ -69,7 +69,7 @@ const Header = () => {
                     <div className="flex items-center gap-1 transition-transform hover:scale-105">
                         <img src={assets.cart_icon} alt="cart icon" className='w-6 opacity-80' />
                         <button className="absolute -top-2 -right-3 text-xs text-white bg-primary w-[18px] h-[18px] rounded-full flex items-center justify-center">
-                            {geTCartCount()}
+                            {getCartCount()}
                         </button>
                     </div>
                 </div>
@@ -124,7 +124,7 @@ const Header = () => {
                         <div className="flex items-center gap-1 transition-transform hover:scale-105">
                             <img src={assets.cart_icon} alt="cart icon" className='w-6 opacity-80' />
                             <button className="absolute -top-2 -right-3 text-xs text-white bg-primary w-[18px] h-[18px] rounded-full flex items-center justify-center">
-                                {geTCartCount()}
+                                {getCartCount()}
                             </button>
                         </div>
                     </div>

@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post('/place-order/COD', authMiddleware, placeOrderCod);
 
-router.get('/:userId', authMiddleware, getUserOrders);
+router.get('/', authMiddleware, getUserOrders);
 
 router.get('/admin/orders', IsAdmin, getAllOrders);
 

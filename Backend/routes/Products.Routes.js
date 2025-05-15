@@ -5,8 +5,9 @@ import { addProducts, updateProducts, DeleteProducts, products, productsById, ch
 
 const router = express.Router();
 
-// Add new product
-router.post("/addProducts", Upload.array("files"), IsAdmin, addProducts);
+
+router.post("/addProducts", Upload.array('files', 4), IsAdmin, addProducts);
+
 
 // Update product (with image replacement)
 router.put("/updateProducts/:id", Upload.array("files"), IsAdmin, updateProducts);

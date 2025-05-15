@@ -1,68 +1,85 @@
-import {  useState } from "react";
+import { useState } from "react";
 import {
   ImageUploader,
   TextInput,
   SelectInput,
 } from "./index";
-
+import { addProduct } from "../../../Services/Admin/Addproducts";
+import toast from "react-hot-toast";
 
 const MainProducts = () => {
-  const [images, setImages] = useState([null, null, null, null]);
+  const [files, setFiles] = useState([null, null, null, null]);
   const [formData, setFormData] = useState({
     name: "",
     category: "",
-    stockStatus: "In Stock",
+    stockStatus: "true", // "true" = In Stock, "false" = Out of Stock
     price: "",
     offerPrice: "",
     description: "",
-    specifications: "",
   });
-  const [errors, setErrors] = useState({}); // For form validation
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Form validation
     let formErrors = {};
     if (!formData.name) formErrors.name = "Product name is required";
     if (!formData.price) formErrors.price = "Price is required";
-    if (!formData.offerPrice) formErrors.offerPrice = "Offer price is required";
-    if (!images.some((img) => img !== null)) formErrors.images = "At least one image is required";
+    if (!files.some((file) => file !== null)) formErrors.images = "At least one image is required";
+    if (!formData.category) formErrors.category = "Category is required";
 
     setErrors(formErrors);
+    if (Object.keys(formErrors).length > 0) return;
 
-    // If there are no errors, proceed with form submission
-    if (Object.keys(formErrors).length === 0) {
-      console.log("Product:", formData);
-      console.log("Images:", images);
-      alert("Product submitted (see console)");
+    const payload = new FormData();
+    payload.append("name", formData.name);
+    payload.append("category", formData.category);
+    payload.append("inStock", formData.stockStatus === "true");
+    payload.append("price", formData.price);
+    payload.append("offerPrice", formData.offerPrice || "");
+    payload.append("description", formData.description);
+
+    // Append only valid File objects
+    files.forEach((fileObj, index) => {
+      if (fileObj && fileObj.file instanceof File) {
+        console.log(`File ${index}:`, fileObj.file.name);
+        payload.append("files", fileObj.file);
+      }
+    });
+
+    try {
+      const data = await addProduct(payload);
+
+      if (data.success) {
+        toast.success("Product added successfully!");
+        setFormData({
+          name: "",
+          category: "",
+          stockStatus: "true",
+          price: "",
+          offerPrice: "",
+          description: "",
+        });
+        setFiles([null, null, null, null]);
+      } else {
+        toast.error(data.message || "Failed to add product.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while adding the product.");
     }
-
-    setFormData({
-      name: "",
-      category: "",
-      stockStatus: "In Stock",
-      price: "",
-      offerPrice: "",
-      description: "",
-      specifications: "",
-    })
-    setImages([null, null, null, null])
   };
 
   return (
-    <div className="no-scrolbar py-10 flex-1 h-[90vh] flex overflow-y-scroll flex-col justify-between bg-[#F9FAFB]">
+    <div className="no-scrollbar py-10 flex-1 h-[90vh] flex overflow-y-scroll flex-col justify-between bg-[#F9FAFB]">
       <form onSubmit={handleSubmit} className="md:p-10 p-4 space-y-5 max-w-xl">
-
-        {/* Image Upload Section */}
-        <ImageUploader images={images} setImages={setImages} />
+        {/* Image Upload */}
+        <ImageUploader images={files} setImages={setFiles} />
         {errors.images && <p className="text-red-500 text-sm">{errors.images}</p>}
 
         {/* Product Name */}
@@ -74,27 +91,30 @@ const MainProducts = () => {
         />
         {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
 
-        {/* Category Select */}
+        {/* Category */}
         <SelectInput
           id="category"
           label="Category"
           value={formData.category}
           onChange={handleChange}
-        options={["Vegetables", "Instant", "Fruits", "Dairy", "Bakery", "Grains"]}
-
+          options={["Vegetables", "Instant", "Fruits", "Dairy", "Bakery", "Grains"]}
         />
+        {errors.category && <p className="text-red-500 text-sm">{errors.category}</p>}
 
-        {/* Stock Status Select */}
+        {/* Stock Status */}
         <SelectInput
           id="stockStatus"
           label="Stock Status"
           value={formData.stockStatus}
           onChange={handleChange}
-          options={["In Stock", "Out of Stock"]}
+          options={[
+            { label: "In Stock", value: "true" },
+            { label: "Out of Stock", value: "false" },
+          ]}
         />
 
+        {/* Price and Offer Price */}
         <div className="flex items-center gap-5 flex-wrap">
-          {/* Price */}
           <TextInput
             id="price"
             label="Product Price"
@@ -104,18 +124,16 @@ const MainProducts = () => {
           />
           {errors.price && <p className="text-red-500 text-sm">{errors.price}</p>}
 
-          {/* Offer Price */}
           <TextInput
             id="offerPrice"
-            label="Offer Price"
+            label="Offer Price (optional)"
             value={formData.offerPrice}
             onChange={handleChange}
             type="number"
           />
-          {errors.offerPrice && <p className="text-red-500 text-sm">{errors.offerPrice}</p>}
         </div>
 
-        {/* Description Textarea */}
+        {/* Description */}
         <div className="flex flex-col gap-2">
           <label className="text-base font-medium">Product Description</label>
           <textarea
@@ -125,10 +143,7 @@ const MainProducts = () => {
             placeholder="Enter product description"
             className="border rounded p-3 border-gray-400/80 bg-[#F9FAFB] min-h-[150px] focus:outline-none"
           />
-          {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
         </div>
-
-        
 
         {/* Submit Button */}
         <button

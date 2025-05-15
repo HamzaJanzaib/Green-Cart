@@ -1,16 +1,20 @@
-import fetchUtil from "../../utils/fetchUtil";
+import fetchUtil from '../../utils/fetchUtil';
+import { API_ENDPOINTS } from '../../config/config';
 
-export const registerUser = async (formData) => {
+
+export const registerUser = async (userData) => {
   try {
-    const data = await fetchUtil("/auth/register", {
-      method: "POST",
+    const data = await fetchUtil(API_ENDPOINTS.REGISTER, {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData),
+      credentials: 'include', // for cookie/session-based auth
+      body: JSON.stringify(userData),
     });
+
     return data;
   } catch (error) {
-    throw new Error(error.message || "Registration failed");
+    throw new Error('Registration failed: ' + error.message);
   }
 };

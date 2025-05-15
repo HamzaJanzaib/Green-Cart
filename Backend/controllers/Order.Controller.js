@@ -4,7 +4,8 @@ import { OrderModel, ProductModel } from "../models/Index.js";
 // Controller For placeOrderCod
 export const placeOrderCod = async (req, res) => {
   try {
-    const { userId, items, address } = req.body;
+    const userId = req.user?.id;
+    const { items, address } = req.body;
 
     if (!address || !items || items.length === 0) {
       return res.status(400).json({
@@ -60,7 +61,7 @@ export const placeOrderCod = async (req, res) => {
 // Controller For getUserOrders
 export const getUserOrders = async (req, res) => {
   try {
-    const { userId } = req.params; 
+    const userId = req.user?.id;
 
     if (!userId) {
       return res.status(400).json({
@@ -70,8 +71,8 @@ export const getUserOrders = async (req, res) => {
     }
 
     const orders = await OrderModel.find({ userId })
-      .populate('items.product', 'name offerPrice') 
-      .populate('address') 
+      .populate('items.product', 'name offerPrice')
+      .populate('address')
       .sort({ createdAt: -1 });
 
     return res.status(200).json({
@@ -94,10 +95,10 @@ export const getUserOrders = async (req, res) => {
 export const getAllOrders = async (req, res) => {
   try {
     const orders = await OrderModel.find()
-      .populate('userId', 'fullname email') 
-      .populate('items.product', 'name offerPrice') 
+      .populate('userId', 'fullname email')
+      .populate('items.product', 'name offerPrice')
       .populate('address')
-      .sort({ createdAt: -1 }); 
+      .sort({ createdAt: -1 });
 
     return res.status(200).json({
       success: true,

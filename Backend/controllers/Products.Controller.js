@@ -4,7 +4,6 @@ import { ProductModel, CategoryModel } from '../models/Index.js';
 import fs from 'fs';
 
 // Controller For Add Products
-
 export const addProducts = async (req, res) => {
   try {
     const {
@@ -17,8 +16,10 @@ export const addProducts = async (req, res) => {
     } = req.body;
 
     const images = req.files;
+    console.log('Files received:', req.files);
+    console.log('Body received:', req.body);
 
-    // ✅ Check required fields
+    // Validate required fields
     if (!name || !description || !price || !category || !images || !images.length) {
       return res.status(400).json({
         success: false,
@@ -26,20 +27,21 @@ export const addProducts = async (req, res) => {
       });
     }
 
-    // ✅ Upload images to Cloudinary and get URLs
+    // Upload images to Cloudinary and get URLs
     const imagesUrl = await Promise.all(
       images.map(async (item) => {
         const result = await Cloudinary.uploader.upload(item.path, {
           resource_type: 'auto'
         });
 
-        // Optional: delete local file after upload
+        // Delete local file after upload
         fs.unlink(item.path, () => { });
         return result.secure_url;
       })
     );
 
-    const foundCategory = await CategoryModel.findOne({ text: category });
+    // Find category by 'text' field matching frontend category string
+    const foundCategory = await CategoryModel.findOne({ path: category });
 
     if (!foundCategory) {
       return res.status(400).json({
@@ -51,11 +53,11 @@ export const addProducts = async (req, res) => {
     const product = new ProductModel({
       name,
       description,
-      price: price,
-      offerPrice: offerPrice,
+      price: Number(price),
+      offerPrice: offerPrice ? Number(offerPrice) : undefined,
       image: imagesUrl,
       category: foundCategory._id,
-      inStock
+      inStock: inStock === 'true' || inStock === true,
     });
 
     const savedProduct = await product.save();
@@ -138,7 +140,7 @@ export const productsById = async (req, res) => {
 export const changeStock = async (req, res) => {
   try {
     const { id } = req.params;
-    let { inStock } = req.params; 
+    let { inStock } = req.params;
 
     console.log('inStock (before conversion):', inStock);
 

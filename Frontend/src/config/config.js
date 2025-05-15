@@ -11,29 +11,29 @@ export const API_ENDPOINTS = {
   ADMINCHECK_AUTH: "/admin/check-auth",
 
   //PUBLIC APIS
-  PRODUCTS: "/api/products/",
-  PRODUCTSBYID: (id) => `/api/products/${id}`,
-  CATEGORY: "/api/Category/",
+  PRODUCTS: "/products/",
+  PRODUCTSBYID: (id) => `/products/${id}`,
+  CATEGORY: "/Category/",
 
   //PRIVATE APIS
-  ADMINADDPRODUCTS: "/api/products/addProducts",
-  ADMINUPDATEPRODUCTS: (id) => `/api/products/updateProducts/${id}`,
-  ADMINDELETEPRODUCTS: (id) => `/api/products/updateProducts/${id}`,
-  ADMINCHANGESTOCK: (id, inStock) => `/api/products/updateProducts/${id} / ${inStock}`,
+  ADMINADDPRODUCTS: "/products/addProducts",
+  ADMINUPDATEPRODUCTS: (id) => `/products/updateProducts/${id}`,
+  ADMINDELETEPRODUCTS: (id) => `/products/delateProducts/${id}`,
+  ADMINCHANGESTOCK: (id, inStock) => `/products/changeStock/${id}/${inStock}`,
 
 
-  ADMINADDCATEGORY: "/api/Category/addCategory",
-  ADMINUPDATECATEGORY: (id) => `/api/Category/updateCategory/${id}}`,
-  ADMINDELETECATEGORY: (id) => `/api/Category/deleteCategory/${id}}`,
+  ADMINADDCATEGORY: "/Category/addCategory",
+  ADMINUPDATECATEGORY: (id) => `/Category/updateCategory/${id}}`,
+  ADMINDELETECATEGORY: (id) => `/Category/deleteCategory/${id}}`,
 
   // LOGIN USER APIS
-  ADDADDRESS: "/api/Address/add",
-  GETUSERADDRESS: (userId) => `/api/Address/${userId}`,
-  DELETEADDRESS: (userId, addressId) => `/api/Address/${userId}/${addressId}`,
-  UPDATEADDRESS: '/api/Address/update',
+  ADDADDRESS: "/Address/add",
+  GETUSERADDRESS: `/Address/`,
+  DELETEADDRESS: (addressId) => `/Address/${addressId}`,
+  UPDATEADDRESS: '/Address/update',
 
   // ORDERS APIS
-  PLACEORDERBYCOD: "/api/Orders/place-order/COD",
-  GETALLORDERS: "/api/Orders/admin/orders",
-  GETUSERORDERS: (userId) => `/api/Orders/${userId}`,
+  PLACEORDERBYCOD: "/Orders/place-order/COD",
+  GETALLORDERS: "/Orders/admin/orders",
+  GETUSERORDERS: `/Orders/`,
 };
