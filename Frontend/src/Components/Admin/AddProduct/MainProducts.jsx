@@ -6,6 +6,8 @@ import {
 } from "./index";
 import { addProduct } from "../../../Services/Admin/Addproducts";
 import toast from "react-hot-toast";
+import { useAppContext } from "../../../context/AppContext";
+import ProductCard from './../../Client/ProductCard';
 
 const MainProducts = () => {
   const [files, setFiles] = useState([null, null, null, null]);
@@ -19,6 +21,10 @@ const MainProducts = () => {
   });
   const [errors, setErrors] = useState({});
   const [Loading, setLoading] = useState(false);
+
+  const { Category } = useAppContext();
+  const categoryOptions = Category.map(cat => cat.path);
+
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -85,7 +91,7 @@ const MainProducts = () => {
 
 
   return (
-    <div className="no-scrollbar py-10 flex-1 h-[90vh] flex overflow-y-scroll flex-col justify-between bg-[#F9FAFB]">
+    <div className="no-scrollbar py-10 flex-1 md:flex-row h-[90vh] flex overflow-y-scroll flex-col justify-between bg-[#F9FAFB]">
       <form onSubmit={handleSubmit} className="md:p-10 p-4 space-y-5 max-w-xl">
         {/* Image Upload */}
         <ImageUploader images={files} setImages={setFiles} />
@@ -106,7 +112,7 @@ const MainProducts = () => {
           label="Category"
           value={formData.category}
           onChange={handleChange}
-          options={["Vegetables", "Instant", "Fruits", "Dairy", "Bakery", "Grains"]}
+          options={categoryOptions}
         />
         {errors.category && <p className="text-red-500 text-sm">{errors.category}</p>}
 
@@ -166,6 +172,90 @@ const MainProducts = () => {
           }
         </button>
       </form>
+
+      <div className="w-[30%] mt-10 p-4 h-[80%] border rounded bg-white shadow-sm">
+        <h2 className="text-xl text-primary font-semibold mb-4">Product Preview</h2>
+
+        {/* Product Card Preview */}
+        <div className="group cursor-pointer flex flex-col gap-2">
+          {/* Image */}
+          <div className="flex gap-2 flex-wrap items-center justify-center px-2">
+            <img
+              className="group-hover:scale-105 transition max-w-18 md:max-w-18 h-25 object-contain rounded"
+              src={
+                files[0]?.file instanceof File
+                  ? URL.createObjectURL(files[0].file)
+                  : "https://via.placeholder.com/150"
+              }
+            />
+            <img
+              className="group-hover:scale-105 transition max-w-18 md:max-w-18 h-25 object-contain rounded"
+              src={
+                files[1]?.file instanceof File
+                  ? URL.createObjectURL(files[1].file)
+                  : "https://via.placeholder.com/150"
+              }
+            />
+            <img
+              className="group-hover:scale-105 transition max-w-18 md:max-w-18 h-25 object-contain rounded"
+              src={
+                files[2]?.file instanceof File
+                  ? URL.createObjectURL(files[2].file)
+                  : "https://via.placeholder.com/150"
+              }
+            />
+            <img
+              className="group-hover:scale-105 transition max-w-18 md:max-w-18 h-25 object-contain rounded"
+              src={
+                files[3]?.file instanceof File
+                  ? URL.createObjectURL(files[3].file)
+                  : "https://via.placeholder.com/150"
+              }
+            />
+          </div>
+
+          {/* Product Info */}
+          <div className="text-gray-500/60 text-sm text-left">
+            <p>{formData.category || "Category"}</p>
+
+            <p className="text-gray-700 font-medium text-lg truncate w-full">
+              {formData.name || "Product Name"}
+            </p>
+
+            {/* Mock Star Rating */}
+            <div className="flex items-center gap-1 my-1">
+              {Array(5).fill("").map((_, i) => (
+                <img
+                  key={i}
+                  className="w-3.5 h-3.5"
+                  src={i < 4
+                    ? "https://upload.wikimedia.org/wikipedia/commons/4/44/Plain_Yellow_Star.png"
+                    : "https://upload.wikimedia.org/wikipedia/commons/1/18/Five-pointed_star.svg"}
+                  alt="star"
+                />
+              ))}
+              <p className="ml-1 text-xs">(4)</p>
+            </div>
+
+            {/* Price */}
+            <div className="flex items-end justify-between mt-3">
+              <p className="md:text-xl text-base font-medium text-primary">
+                ${formData.offerPrice || "00.00"}{" "}
+                <span className="text-gray-500/60 md:text-sm text-xs line-through">
+                  ${formData.price || "00.00"}
+                </span>
+              </p>
+            </div>
+
+            {/* Description */}
+            <p className="text-sm mt-2 line-clamp-3">
+              {formData.description || "Product description goes here..."}
+            </p>
+          </div>
+        </div>
+      </div>
+
+
     </div>
   );
 };
