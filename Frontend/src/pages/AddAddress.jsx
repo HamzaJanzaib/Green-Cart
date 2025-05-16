@@ -63,7 +63,6 @@ const AddAddress = () => {
             };
 
             const data = await addAddress(AddressDetails);
-            console.log(data);
 
             if (data.success) {
                 toast.success(data.message || "Address saved successfully!");

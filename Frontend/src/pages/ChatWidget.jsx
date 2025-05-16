@@ -39,7 +39,7 @@ const ChatWidget = () => {
 
             {/* Chat Box */}
             <div
-                className={`transition-all duration-300 ease-in-out transform ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'
+                className={`transition-all ${!isOpen ? "hidden" : "block"} duration-300 ease-in-out transform ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'
                     } mt-4 w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 p-4`}
             >
                 <div className="flex justify-between items-center mb-3">

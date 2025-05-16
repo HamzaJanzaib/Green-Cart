@@ -15,6 +15,7 @@ export const API_ENDPOINTS = {
   PRODUCTS: "/products/",
   PRODUCTSBYID: (id) => `/products/${id}`,
   CATEGORY: "/Category/",
+  UPDATECART: "/cart/updateCart",
 
   //PRIVATE APIS
   ADMINADDPRODUCTS: "/products/addProducts",

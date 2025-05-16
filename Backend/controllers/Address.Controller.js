@@ -35,7 +35,6 @@ export const addAddress = async (req, res) => {
       data: savedAddress,
     });
   } catch (error) {
-    console.error('Error adding address:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to add address',
@@ -63,7 +62,6 @@ export const getAddress = async (req, res) => {
       data: address,
     });
   } catch (error) {
-    console.error('Error fetching address:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to fetch address',
@@ -114,7 +112,6 @@ export const updateAddress = async (req, res) => {
       data: updatedAddress,
     });
   } catch (error) {
-    console.error('Error updating address:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to update address',
@@ -144,7 +141,6 @@ export const deleteAddress = async (req, res) => {
       message: 'Address deleted successfully',
     });
   } catch (error) {
-    console.error('Error deleting address:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to delete address',

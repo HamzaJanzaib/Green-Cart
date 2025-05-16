@@ -8,6 +8,7 @@ import { getProfile } from "../Services/Others/GetProfile";
 import { getAddress } from "../Services/Others/GetAllAddress";
 import { getallproducts } from "../Services/Others/GetAllProducts";
 import { getallcategory } from "../Services/Others/GetAllCategory";
+import { updatecart } from "../Services/Others/UpdateCart";
 
 export const AppContext = createContext();
 
@@ -32,13 +33,9 @@ export const AppContextProvider = ({ children }) => {
             setLoading(true);
             const data = await checkAuthAdmin();
             if (data.success) {
-                if (!isSeller) {
-                    setIsSeller(true);
-                }
+                if (!isSeller) setIsSeller(true);
             } else {
-                if (isSeller) {
-                    toast.error("Not authorized as admin");
-                }
+                if (isSeller) toast.error("Not authorized as admin");
                 setIsSeller(false);
             }
         } catch (error) {
@@ -49,21 +46,17 @@ export const AppContextProvider = ({ children }) => {
             setLoading(false);
         }
     };
+
     const getUserProfile = async () => {
         try {
             setLoading(true);
-
             const data = await getProfile();
-
             if (data?.success) {
                 setUserDetails(data.data);
-                if (data.data.role === "admin") {
-                    setIsSeller(true);
-                }
+                if (data.data.role === "admin") setIsSeller(true);
             } else {
                 toast.error(data.message || "Failed to fetch user profile");
             }
-
         } catch (error) {
             console.error("getUserProfile error:", error);
             setIsSeller(false);
@@ -72,88 +65,72 @@ export const AppContextProvider = ({ children }) => {
             setLoading(false);
         }
     };
+
     const getUserAddress = async () => {
         try {
             setLoading(true);
-
             const data = await getAddress();
-
             if (data?.success) {
                 setuserAddress(data.data);
-                if (data.data.role === "admin") {
-                    setIsSeller(true);
-                }
+                if (data.data.role === "admin") setIsSeller(true);
             } else {
                 toast.error(data.message || "Failed to fetch user profile");
             }
-
         } catch (error) {
-            console.error("getUserProfile error:", error);
+            console.error("getUserAddress error:", error);
             setIsSeller(false);
-            toast.error("Error fetching user profile");
+            toast.error("Error fetching user address");
         } finally {
             setLoading(false);
         }
     };
+
     const getAllProducts = async () => {
         try {
             setLoading(true);
-
             const data = await getallproducts();
-            console.log(data.data)
             if (data?.success) {
                 setProducts(data.data);
             } else {
-                toast.error(data.message || "Failed to fetch user profile");
+                toast.error(data.message || "Failed to fetch products");
             }
-
         } catch (error) {
-            console.error("getUserProfile error:", error);
-            setIsSeller(false);
-            toast.error("Error fetching user profile");
+            console.error("getAllProducts error:", error);
+            toast.error("Error fetching products");
         } finally {
             setLoading(false);
         }
     };
+
     const getAllCategories = async () => {
         try {
             setLoading(true);
-
             const data = await getallcategory();
-            console.log(data.data)
             if (data?.success) {
                 setCategory(data.data);
             } else {
-                toast.error(data.message || "Failed to fetch user profile");
+                toast.error(data.message || "Failed to fetch categories");
             }
-
         } catch (error) {
-            console.error("getUserProfile error:", error);
-            setIsSeller(false);
-            toast.error("Error fetching user profile");
+            console.error("getAllCategories error:", error);
+            toast.error("Error fetching categories");
         } finally {
             setLoading(false);
         }
     };
-
 
     const fetchUser = async () => {
         try {
             setLoading(true);
             const data = await checkAuthUser();
-
             if (data.success) {
-                if (!user) {
-                    setUser(true);
-                }
+                if (!user) setUser(true);
             } else {
-                if (user) {
-                    toast.error(data.message || "User not authorized");
-                }
+                if (user) toast.error(data.message || "User not authorized");
                 setUser(false);
             }
         } catch (error) {
-            console.error(error);
+            console.error("fetchUser error:", error);
             setUser(false);
             toast.error("Error checking user authentication");
         } finally {
@@ -161,48 +138,72 @@ export const AppContextProvider = ({ children }) => {
         }
     };
 
+    const fetchCartFromDB = async () => {
+        try {
+            setLoading(true);
+            const data = await updatecart(CartItems); // Backend should return { cartItems: { [productId]: quantity } }
+            if (data?.success) {
+                setCartItems(data.cartItems || {});
+            }
+        } catch (error) {
+            console.error("fetchCartFromDB error:", error);
+            toast.error("Failed to load cart from database");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const updateDBCartItems = async () => {
+        try {
+            setLoading(true);
+            const data = await updatecart(CartItems);
+            if (data?.success) {
+                toast.success(data.message || "Cart updated");
+            } else {
+                if (user) toast.error(data?.message || "User not authorized");
+            }
+        } catch (error) {
+            console.error("updateDBCartItems error:", error);
+            toast.error("Something went wrong while updating cart items.");
+            setUser(false);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         fetchUser();
-        getUserProfile();
         getAllProducts();
-        getUserAddress();
         getAllCategories();
+        if (user) {
+            getUserProfile();
+            getUserAddress();
+            fetchCartFromDB(); // Sync cart from DB
+        }
         if (location.pathname.includes("/admin")) {
             fetchAdmin();
         }
-    }, []);
-
-
-    useEffect(() => {
-        const storedCart = localStorage.getItem("cartItems");
-        if (storedCart) {
-            try {
-                setCartItems(JSON.parse(storedCart));
-            } catch (error) {
-                console.error("Failed to parse cartItems from localStorage", error);
-            }
-        }
-    }, []);
+    }, [user]);
 
     useEffect(() => {
-        localStorage.setItem("cartItems", JSON.stringify(CartItems));
+        updateDBCartItems();
     }, [CartItems]);
 
-    const addToCart = async (itemId) => {
+    const addToCart = (itemId) => {
         const updatedCart = { ...CartItems };
         updatedCart[itemId] = (updatedCart[itemId] || 0) + 1;
         setCartItems(updatedCart);
         toast.success("Added to cart");
     };
 
-    const updateCartsItems = async (itemId, quantity) => {
+    const updateCartsItems = (itemId, quantity) => {
         const updatedCart = { ...CartItems };
         updatedCart[itemId] = quantity;
         setCartItems(updatedCart);
         toast.success("Cart updated");
     };
 
-    const removeFromCart = async (itemId) => {
+    const removeFromCart = (itemId) => {
         const updatedCart = { ...CartItems };
         if (updatedCart[itemId]) {
             updatedCart[itemId] -= 1;

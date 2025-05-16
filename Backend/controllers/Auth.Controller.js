@@ -137,7 +137,6 @@ export const logoutUser = async (req, res) => {
 export const verifiedUser = async (req, res) => {
     try {
         const id = req.user?.id;
-        console.log(id)
 
         if (!id) {
             return res.status(404).json({
@@ -322,7 +321,6 @@ export const verifiedAdmin = async (req, res) => {
 export const getProfile = async (req, res) => {
     try {
         const userId = req.user?.id;
-        console.log("getprofile " + userId)
 
         if (!userId) {
             return res.status(401).json({

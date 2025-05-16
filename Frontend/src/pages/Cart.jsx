@@ -6,7 +6,6 @@ const Cart = () => {
   const {
     Products,
     currency,
-    addToCart,
     updateCartsItems,
     removeFromCart,
     CartItems,
@@ -138,7 +137,7 @@ const Cart = () => {
                   </p>
                 ))}
                 <p
-                  onClick={() => navigate('/add-address')}
+                  onClick={() => navigate('/profile/add-address')}
                   className="text-primary text-center cursor-pointer p-2 hover:bg-primary/10"
                 >
                   Add address

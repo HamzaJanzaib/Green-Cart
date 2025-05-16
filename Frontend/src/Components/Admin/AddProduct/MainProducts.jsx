@@ -57,9 +57,8 @@ const MainProducts = () => {
     payload.append("description", formData.description);
 
     // Append only valid File objects
-    files.forEach((fileObj, index) => {
+    files.forEach((fileObj) => {
       if (fileObj && fileObj.file instanceof File) {
-        console.log(`File ${index}:`, fileObj.file.name);
         payload.append("files", fileObj.file);
       }
     });

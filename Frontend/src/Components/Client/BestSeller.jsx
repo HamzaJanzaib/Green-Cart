@@ -14,7 +14,6 @@ const BestSeller = () => {
                     .filter((Product) => Product.inStock)
                     .slice(0, 5)
                     .map((Product, Index) => (
-                        // console.log(Product)
                         <ProductCard key={Index} Product={Product} />
                     ))}
             </div>

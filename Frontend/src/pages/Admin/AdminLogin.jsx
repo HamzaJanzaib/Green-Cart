@@ -25,7 +25,6 @@ const AdminLogin = () => {
             };
 
             const data = await loginAdmin(formdata);
-            console.log(data);
 
             if (data.success) {
                 toast.success(data.message || "Login successful!");

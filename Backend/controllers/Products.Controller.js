@@ -16,8 +16,6 @@ export const addProducts = async (req, res) => {
     } = req.body;
 
     const images = req.files;
-    console.log('Files received:', req.files);
-    console.log('Body received:', req.body);
 
     // Validate required fields
     if (!name || !description || !price || !category || !images || !images.length) {
@@ -144,7 +142,6 @@ export const changeStock = async (req, res) => {
     const { id } = req.params;
     let { inStock } = req.params;
 
-    console.log('inStock (before conversion):', inStock);
 
     // Convert 'true'/'false' strings to boolean
     if (inStock === 'true') {
@@ -153,7 +150,6 @@ export const changeStock = async (req, res) => {
       inStock = false;
     }
 
-    console.log('inStock (after conversion):', inStock);
 
     // Validate if inStock is a boolean
     if (typeof inStock !== 'boolean') {

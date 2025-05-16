@@ -4,6 +4,7 @@ import ProductsRoutes from './Products.Routes.js';
 import CategorysRoutes from './Category.Routes.js';
 import AddressRoutes from "./Address.Routes.js"
 import OrderRoutes from "./Orders.routes.js"
+import CartRouter from "./Cart.Routes.js"
 
 export {
     AuthRouter,
@@ -11,5 +12,6 @@ export {
     CategorysRoutes,
     ProductsRoutes,
     AddressRoutes,
-    OrderRoutes
+    OrderRoutes,
+    CartRouter
 };

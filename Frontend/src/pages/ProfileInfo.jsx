@@ -7,8 +7,7 @@ const ProfileInfo = () => {
     UserDetails,
     userAddress
   } = useAppContext();
-  console.log("UserDetails:", UserDetails);
-  console.log("userAddress:", userAddress);
+
 
   return (
     <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-4">
