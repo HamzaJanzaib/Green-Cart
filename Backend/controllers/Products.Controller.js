@@ -85,8 +85,7 @@ export const addProducts = async (req, res) => {
 // Controller For Products
 export const products = async (req, res) => {
   try {
-    // Fetch all products from the database
-    const products = await ProductModel.find().populate('category', 'text'); // Populate category name
+    const products = await ProductModel.find().populate('category'); 
 
     res.status(200).json({
       success: true,
@@ -102,7 +101,6 @@ export const products = async (req, res) => {
     });
   }
 };
-// ----------------------- Controller For Products end
 
 // -------------------------------------------------------------------------------
 

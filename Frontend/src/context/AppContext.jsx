@@ -1,12 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { dummyProducts } from "../assets/assets";
 import toast from "react-hot-toast";
 import { BASE_URL } from "../config/config";
 import { checkAuthAdmin } from "../Services/Auth/AdminCheck-Auth";
 import { checkAuthUser } from "../Services/Auth/Check-user-auth";
 import { getProfile } from "../Services/Others/GetProfile";
 import { getAddress } from "../Services/Others/GetAllAddress";
+import { getallproducts } from "../Services/Others/GetAllProducts";
+import { getallcategory } from "../Services/Others/GetAllCategory";
 
 export const AppContext = createContext();
 
@@ -20,6 +21,7 @@ export const AppContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [ShowUserLogin, setShowUserLogin] = useState(false);
     const [Products, setProducts] = useState([]);
+    const [Category, setCategory] = useState([]);
     const [CartItems, setCartItems] = useState({});
     const [SearchQuary, setSearchQuary] = useState({});
     const [UserDetails, setUserDetails] = useState({});
@@ -93,6 +95,46 @@ export const AppContextProvider = ({ children }) => {
             setLoading(false);
         }
     };
+    const getAllProducts = async () => {
+        try {
+            setLoading(true);
+
+            const data = await getallproducts();
+            console.log(data.data)
+            if (data?.success) {
+                setProducts(data.data);
+            } else {
+                toast.error(data.message || "Failed to fetch user profile");
+            }
+
+        } catch (error) {
+            console.error("getUserProfile error:", error);
+            setIsSeller(false);
+            toast.error("Error fetching user profile");
+        } finally {
+            setLoading(false);
+        }
+    };
+    const getAllCategories = async () => {
+        try {
+            setLoading(true);
+
+            const data = await getallcategory();
+            console.log(data.data)
+            if (data?.success) {
+                setCategory(data.data);
+            } else {
+                toast.error(data.message || "Failed to fetch user profile");
+            }
+
+        } catch (error) {
+            console.error("getUserProfile error:", error);
+            setIsSeller(false);
+            toast.error("Error fetching user profile");
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
     const fetchUser = async () => {
@@ -122,15 +164,14 @@ export const AppContextProvider = ({ children }) => {
     useEffect(() => {
         fetchUser();
         getUserProfile();
+        getAllProducts();
         getUserAddress();
+        getAllCategories();
         if (location.pathname.includes("/admin")) {
             fetchAdmin();
         }
     }, []);
 
-    useEffect(() => {
-        setProducts(dummyProducts);
-    }, []);
 
     useEffect(() => {
         const storedCart = localStorage.getItem("cartItems");
@@ -207,7 +248,8 @@ export const AppContextProvider = ({ children }) => {
         BASE_URL,
         loading,
         UserDetails,
-        userAddress
+        userAddress,
+        Category
     };
 
     return (
