@@ -101,7 +101,6 @@ export const AppContextProvider = ({ children }) => {
             setLoading(true);
 
             const data = await getallproducts();
-            console.log(data.data)
             if (data?.success) {
                 setProducts(data.data);
             } else {
@@ -121,7 +120,6 @@ export const AppContextProvider = ({ children }) => {
             setLoading(true);
 
             const data = await getallcategory();
-            console.log(data.data)
             if (data?.success) {
                 setCategory(data.data);
             } else {
@@ -178,7 +176,6 @@ export const AppContextProvider = ({ children }) => {
             try {
 
                 const data = await updatecart(CartItems); // ensure this function hits your backend properly
-                console.log(data)
                 if (data?.success) {
                     toast.success(data.message || "cart Updated")
                 } else {
@@ -198,20 +195,7 @@ export const AppContextProvider = ({ children }) => {
         }
     }, [CartItems])
 
-    useEffect(() => {
-        const storedCart = localStorage.getItem("cartItems");
-        if (storedCart) {
-            try {
-                setCartItems(JSON.parse(storedCart));
-            } catch (error) {
-                console.error("Failed to parse cartItems from localStorage", error);
-            }
-        }
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem("cartItems", JSON.stringify(CartItems));
-    }, [CartItems]);
+    // Local storage for cart items has been removed
 
     const addToCart = async (itemId) => {
         const updatedCart = { ...CartItems };
