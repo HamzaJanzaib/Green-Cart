@@ -10,6 +10,7 @@ import { getallproducts } from "../Services/Others/GetAllProducts";
 import { getallcategory } from "../Services/Others/GetAllCategory";
 import { updatecart } from "../Services/Others/UpdateCart";
 
+//eslint-disable-next-line react-refresh/only-export-components
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
@@ -33,19 +34,15 @@ export const AppContextProvider = ({ children }) => {
             setLoading(true);
             const data = await checkAuthAdmin();
             if (data.success) {
-                if (!isSeller) {
-                    setIsSeller(true);
-                }
+                setIsSeller(true);
+                navigate("/admin")
             } else {
-                if (isSeller) {
-                    toast.error("Not authorized as admin");
-                }
                 setIsSeller(false);
+                navigate("/admin-login");
             }
-        } catch (error) {
-            console.error(error);
+        } catch {
             setIsSeller(false);
-            toast.error("Error checking admin auth");
+            navigate("/admin-login");
         } finally {
             setLoading(false);
         }
@@ -68,7 +65,6 @@ export const AppContextProvider = ({ children }) => {
         } catch (error) {
             console.error("getUserProfile error:", error);
             setIsSeller(false);
-            toast.error("Error fetching user profile");
         } finally {
             setLoading(false);
         }
@@ -91,15 +87,12 @@ export const AppContextProvider = ({ children }) => {
         } catch (error) {
             console.error("getUserProfile error:", error);
             setIsSeller(false);
-            toast.error("Error fetching user profile");
         } finally {
             setLoading(false);
         }
     };
     const getAllProducts = async () => {
         try {
-            setLoading(true);
-
             const data = await getallproducts();
             if (data?.success) {
                 setProducts(data.data);
@@ -110,15 +103,10 @@ export const AppContextProvider = ({ children }) => {
         } catch (error) {
             console.error("getUserProfile error:", error);
             setIsSeller(false);
-            toast.error("Error fetching user profile");
-        } finally {
-            setLoading(false);
         }
     };
     const getAllCategories = async () => {
         try {
-            setLoading(true);
-
             const data = await getallcategory();
             if (data?.success) {
                 setCategory(data.data);
@@ -128,18 +116,14 @@ export const AppContextProvider = ({ children }) => {
 
         } catch (error) {
             console.error("getUserProfile error:", error);
-            setIsSeller(false);
-            toast.error("Error fetching user profile");
-        } finally {
-            setLoading(false);
         }
     };
     const fetchUser = async () => {
         try {
             setLoading(true);
             const data = await checkAuthUser();
-
             if (data.success) {
+                setCartItems(data.data.cartItems);
                 if (!user) {
                     setUser(true);
                 }
@@ -152,7 +136,6 @@ export const AppContextProvider = ({ children }) => {
         } catch (error) {
             console.error(error);
             setUser(false);
-            toast.error("Error checking user authentication");
         } finally {
             setLoading(false);
         }
@@ -162,37 +145,43 @@ export const AppContextProvider = ({ children }) => {
         fetchUser();
         getAllProducts();
         getAllCategories();
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
         if (user) {
-            getUserProfile();
-            getUserAddress();
+            if (location.pathname.includes("/profile")) {
+                getUserProfile();
+                getUserAddress();
+            }
         }
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user])
+    useEffect(() => {
         if (location.pathname.includes("/admin")) {
             fetchAdmin();
         }
-    }, [user]);
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     useEffect(() => {
         const updateDBCartItems = async () => {
             try {
-
-                const data = await updatecart(CartItems); // ensure this function hits your backend properly
-                if (data?.success) {
-                    toast.success(data.message || "cart Updated")
-                } else {
-                    if (user) {
-                        toast.error(data?.message || "User not authorized");
-                    }
-
+                console.log(CartItems)
+                const data = await updatecart(CartItems);
+                if (!data.success) {
+                    console.log(data)
+                    // setCartItems(data.data.cartItems);
+                    return toast.error(data.message || "Cart not updated");
                 }
             } catch (error) {
-                console.error("updateDBCartItems Error:", error);
-                toast.error("Something went wrong while updating cart items.");
-                setUser(false);
+                toast.error(error.message);
             }
         };
         if (user) {
             updateDBCartItems();
         }
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [CartItems])
 
     // Local storage for cart items has been removed
@@ -258,7 +247,8 @@ export const AppContextProvider = ({ children }) => {
         loading,
         UserDetails,
         userAddress,
-        Category
+        Category,
+        getAllProducts
     };
 
     return (
@@ -268,4 +258,5 @@ export const AppContextProvider = ({ children }) => {
     );
 };
 
+//eslint-disable-next-line react-refresh/only-export-components
 export const useAppContext = () => useContext(AppContext);

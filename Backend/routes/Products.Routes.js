@@ -22,6 +22,6 @@ router.get("/", products);
 router.get("/:id", productsById);
 
 // Change stock status
-router.patch("/changeStock/:id/:inStock", IsAdmin, changeStock);
+router.put("/changeStock/:id/:inStock", IsAdmin, changeStock);
 
 export default router;

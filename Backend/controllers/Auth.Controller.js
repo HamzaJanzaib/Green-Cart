@@ -174,7 +174,6 @@ export const adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Check if both email and password are provided
         if (!email || !password) {
             return res.status(400).json({
                 status: 400,
@@ -270,10 +269,8 @@ export const logoutAdmin = async (req, res) => {
 // Controller For Admin verifiedAdmin
 export const verifiedAdmin = async (req, res) => {
     try {
-        // Retrieve the admin id from the request object
         const id = req.admin?.id;
 
-        // If no admin ID is found, return an error response
         if (!id) {
             return res.status(404).json({
                 success: false,

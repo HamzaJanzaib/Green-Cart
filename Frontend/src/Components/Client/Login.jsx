@@ -38,7 +38,7 @@ const Login = () => {
             console.error(error);
             toast.error("Something went wrong. Please try again.");
         } finally {
-            setloading(false); // Always stop loading at the end
+            setloading(false); 
         }
     };
     return (

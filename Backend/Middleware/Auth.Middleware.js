@@ -34,9 +34,8 @@ export const IsAdmin = async (req, res, next) => {
     }
 
     try {
-        // Verify the token and decode the user info
         const decoded = await verifyToken(token);
-        
+
         // Find the user by ID
         const user = await UserModel.findById(decoded.id).select('-password');
 
@@ -51,7 +50,7 @@ export const IsAdmin = async (req, res, next) => {
         // Attach the admin data to the request object for use in the next middleware
         req.admin = { id: user._id, role: user.role };
         req.token = token;
-        
+
         // Proceed to the next middleware or route handler
         next();
     } catch (error) {

@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
 import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
+import { changeProductStockAdmin } from '../../Services/Admin/ChangeStock';
+import toast from 'react-hot-toast';
 
 const Products = () => {
-  const { Products, currency } = useAppContext();
+  const { Products, currency, getAllProducts } = useAppContext();
   const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -12,6 +14,20 @@ const Products = () => {
   const [inStockOnly, setInStockOnly] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  const toggleStock = async (id, inStock) => {
+    try {
+      const data = await changeProductStockAdmin(id, inStock);
+      if (data.success) {
+        getAllProducts();
+        toast.success(data.message || "Stock updated successfully!");
+      } else {
+        toast.error(data.message || "Failed to update stock.");
+      }
+    } catch (error) {
+      toast.error(error.message || "Failed to update stock.");
+    }
+  }
 
   // Get unique categories from populated category objects
   const uniqueCategories = [
@@ -124,7 +140,7 @@ const Products = () => {
                     <td className="px-4 py-3 hidden md:table-cell">{currency}{product.offerPrice}</td>
                     <td className="px-4 py-3">
                       <label className="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" className="sr-only peer" defaultChecked={product.inStock} />
+                        <input type="checkbox" className="sr-only peer" defaultChecked={product.inStock} onChange={() => toggleStock(product._id, !product.inStock)} />
                         <div className="w-12 h-7 bg-slate-300 rounded-full peer peer-checked:bg-primary transition" />
                         <span className="dot absolute left-1 top-1 w-5 h-5 bg-[#F9FAFB] rounded-full transition-transform peer-checked:translate-x-5" />
                       </label>
