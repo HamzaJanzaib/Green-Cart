@@ -167,10 +167,10 @@ export const AppContextProvider = ({ children }) => {
     useEffect(() => {
         const updateDBCartItems = async () => {
             try {
-                console.log(CartItems)
+                console.log( " CartItems",CartItems)
                 const data = await updatecart(CartItems);
+                console.log( "data",data)
                 if (!data.success) {
-                    console.log(data)
                     // setCartItems(data.data.cartItems);
                     return toast.error(data.message || "Cart not updated");
                 }
