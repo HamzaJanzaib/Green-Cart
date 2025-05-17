@@ -1,21 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FaEdit, FaEye } from 'react-icons/fa';
 import { useAppContext } from '../../context/AppContext';
-import { assets, dummyOrders } from '../../assets/assets';
+import { assets } from '../../assets/assets';
 
 const Orders = () => {
-  const { currency } = useAppContext()
-  const [orders, setOrders] = useState([])
+  const { currency , AllOrders } = useAppContext()
 
-  const fetchOrders = async () => {
-    setOrders(dummyOrders)
-  }
-
-  useEffect(() => {
-    fetchOrders()
-  } , [])
-
-  if (orders.length === 0) {
+  if (AllOrders.length === 0) {
     return (
       <div className="p-6 text-center text-gray-500">
         <p>No orders found.</p>
@@ -31,7 +22,7 @@ const Orders = () => {
         <div className="w-16 h-0.5 bg-primary mt-2 rounded-full" />
       </header>
 
-      {orders.map((order) => (
+      {AllOrders.map((order) => (
         <article
           key={order.id}
           className="flex flex-col md:grid md:grid-cols-[3fr_2fr_1fr_2fr_1fr] items-start md:items-center gap-5 p-5 border rounded-lg bg-white shadow-sm hover:shadow-md transition"
@@ -55,11 +46,11 @@ const Orders = () => {
             <p>{order.address.street}, {order.address.city}, {order.address.state} {order.address.zipcode}, {order.address.country}</p>
           </div>
 
-          <p className="font-semibold text-gray-900">{currency}{order.amount.toFixed(2)}</p>
+          <p className="font-semibold text-gray-900">{currency}{order.GrandTotal.toFixed(2)}</p>
 
           <div className="text-sm text-gray-600 space-y-1">
             <p><span className="font-medium">Method:</span> {order.paymentType}</p>
-            <p><span className="font-medium">Date:</span> {order.orderDate}</p>
+            <p><span className="font-medium">Date:</span> {order.createdAt.slice(0,10)}</p>
             <p>
               <span className="font-medium">Payment:</span>{' '}
               <span className={`font-semibold ${order.isPaid ? 'text-green-600' : 'text-yellow-600'}`}>

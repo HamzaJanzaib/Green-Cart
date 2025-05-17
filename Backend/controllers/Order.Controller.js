@@ -5,7 +5,7 @@ import { OrderModel, ProductModel } from "../models/Index.js";
 export const placeOrderCod = async (req, res) => {
   try {
     const userId = req.user?.id;
-    const { items, address } = req.body;
+    const { items, address , GrandTotal  } = req.body;
 
     if (!address || !items || items.length === 0) {
       return res.status(400).json({
@@ -40,6 +40,7 @@ export const placeOrderCod = async (req, res) => {
       address,
       paymentType: 'cod',
       isPaid: false,
+      GrandTotal,
     });
 
     return res.status(200).json({
@@ -71,7 +72,7 @@ export const getUserOrders = async (req, res) => {
     }
 
     const orders = await OrderModel.find({ userId })
-      .populate('items.product', 'name offerPrice')
+      .populate('items.product')
       .populate('address')
       .sort({ createdAt: -1 });
 

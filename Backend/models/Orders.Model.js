@@ -44,6 +44,10 @@ const orderSchema = new mongoose.Schema(
       default: false,
       required: true,
     },
+    GrandTotal: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,

@@ -17,7 +17,8 @@ const Header = () => {
         navigate,
         setSearchQuary,
         SearchQuary,
-        getCartCount
+        getCartCount,
+        UserDetails
     } = useAppContext();
 
     const LogoutUser = async () => {
@@ -40,6 +41,7 @@ const Header = () => {
         if (SearchQuary > 0) {
             navigate("/products")
         }
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [SearchQuary])
 
     const navLinks = [
@@ -100,7 +102,7 @@ const Header = () => {
                             className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-300 cursor-pointer"
                         >
                             <img
-                                src={assets.profile_icon}
+                                src={ UserDetails?.profilePicture || assets.profile_icon}
                                 alt="User Avatar"
                                 className="w-full h-full object-cover"
                             />

@@ -3,7 +3,7 @@ import { API_ENDPOINTS } from '../../config/config';
 
 export const getOrders = async () => {
   try {
-    const data = await fetchUtil(API_ENDPOINTS.GETUSERORDERS(), {
+    const data = await fetchUtil(API_ENDPOINTS.GETUSERORDERS, {
       method: 'GET', 
       credentials: 'include', 
     });

@@ -1,13 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../context/AppContext'
-import { dummyOrders } from '../assets/assets'
+import toast from 'react-hot-toast';
+import { getOrders } from '../Services/Others/GetUserOrders';
+import { FaEye } from "react-icons/fa";
 
 const MyOrders = () => {
-    const [myOrders, setMyOrders] = useState([])
-    const { currency } = useAppContext()
+    const [myOrders, setMyOrders] = useState([]);
+    const { currency, navigate } = useAppContext();
 
     const fetchMyOrders = async () => {
-        setMyOrders(dummyOrders) // Replace with API call
+        try {
+            const data = await getOrders();
+                if (data.success) {
+                setMyOrders(data.orders);
+            } else {
+                toast.error(data.message || "Failed to fetch orders");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to fetch orders");
+        }
     }
 
     useEffect(() => {
@@ -33,7 +45,7 @@ const MyOrders = () => {
                         <div className="mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-sm text-gray-700">
                             <p><span className="font-semibold">Order ID:</span> {order._id}</p>
                             <p><span className="font-semibold">Payment:</span> {order.paymentType}</p>
-                            <p><span className="font-semibold">Total:</span> {currency}{order.amount}</p>
+                            <p><span className="font-semibold">Total:</span> {currency}{order.GrandTotal}</p>
                         </div>
 
                         {/* Order Items */}
@@ -42,12 +54,17 @@ const MyOrders = () => {
                                 <div key={idx} className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-t pt-4">
                                     {/* Left: Image + Product Info */}
                                     <div className="flex gap-4 items-center">
-                                        <div className="bg-primary/10 p-3 rounded-lg w-16 h-16 flex items-center justify-center">
+                                        <div className="bg-primary/10 p-3 rounded-lg w-16 h-16 flex items-center justify-center relative group">
                                             <img
                                                 src={item.product.image[0]}
                                                 alt={item.product.name}
                                                 className="w-full h-full object-cover rounded"
                                             />
+                                            <div className="absolute inset-0 bg-black/20 bg-opacity-40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center cursor-pointer">
+                                                <FaEye className="text-[#F9FAFB] text-lg"
+                                                    onClick={() => navigate(`/products/${item.product.category}/${item.product._id}`)}
+                                                />
+                                            </div>
                                         </div>
                                         <div>
                                             <p className="font-semibold text-gray-800">{item.product.name}</p>

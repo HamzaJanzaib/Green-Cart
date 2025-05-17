@@ -41,7 +41,6 @@ const Cart = () => {
   const getUserAddress = async () => {
     try {
       const data = await getAddress();
-      console.log(data);
       if (data.success) {
         setAddress(data.data);
         setSelectedAddress(data.data[0]);
@@ -66,10 +65,10 @@ const Cart = () => {
           amount: item.offerPrice * item.quantity,
         })),
         address: SelectedAddress._id,
+        GrandTotal: getCartTotalAmount() * 1.02,
       };
       if (PaymentOption === 'COD') {
         const data = await placeOrderByCOD(orderData);
-        console.log(data);
         if (data.success) {
           toast.success(data.message);
           setCartItems({});

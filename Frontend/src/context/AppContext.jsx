@@ -9,6 +9,7 @@ import { getAddress } from "../Services/Others/GetAllAddress";
 import { getallproducts } from "../Services/Others/GetAllProducts";
 import { getallcategory } from "../Services/Others/GetAllCategory";
 import { updatecart } from "../Services/Others/UpdateCart";
+import { getOrders } from "../Services/Others/GetUserOrders";
 
 //eslint-disable-next-line react-refresh/only-export-components
 export const AppContext = createContext();
@@ -28,6 +29,7 @@ export const AppContextProvider = ({ children }) => {
     const [SearchQuary, setSearchQuary] = useState({});
     const [UserDetails, setUserDetails] = useState({});
     const [userAddress, setuserAddress] = useState({});
+    const [AllOrders, setAllOrders] = useState([]);
 
     const fetchAdmin = async () => {
         try {
@@ -141,6 +143,20 @@ export const AppContextProvider = ({ children }) => {
         }
     };
 
+    const GetAllOrders = async () => {
+        try {
+            const data = await getOrders();
+            if (data?.success) {
+                setAllOrders(data.orders);
+            } else {
+                toast.error(data.message || "Failed to fetch user profile");
+            }
+
+        } catch (error) {
+            console.error("getUserProfile error:", error);
+        }
+    };
+
     useEffect(() => {
         fetchUser();
         getAllProducts();
@@ -160,6 +176,7 @@ export const AppContextProvider = ({ children }) => {
     useEffect(() => {
         if (location.pathname.includes("/admin")) {
             fetchAdmin();
+            GetAllOrders();
         }
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -167,9 +184,7 @@ export const AppContextProvider = ({ children }) => {
     useEffect(() => {
         const updateDBCartItems = async () => {
             try {
-                console.log( " CartItems",CartItems)
                 const data = await updatecart(CartItems);
-                console.log( "data",data)
                 if (!data.success) {
                     // setCartItems(data.data.cartItems);
                     return toast.error(data.message || "Cart not updated");
@@ -250,6 +265,7 @@ export const AppContextProvider = ({ children }) => {
         Category,
         getAllProducts,
         setCartItems,
+        AllOrders
     };
 
     return (

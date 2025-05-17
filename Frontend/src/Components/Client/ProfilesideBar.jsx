@@ -4,7 +4,7 @@ import { useAppContext } from '../../context/AppContext';
 import { logoutUser } from '../../Services/Auth/Logout';
 import toast from 'react-hot-toast';
 
-const ProfilesideBar = ({ data }) => {
+const ProfilesideBar = () => {
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
@@ -12,6 +12,7 @@ const ProfilesideBar = ({ data }) => {
   const {
     setUser,
     navigate,
+    UserDetails
   } = useAppContext();
 
   const LogoutUser = async () => {
@@ -41,15 +42,15 @@ const ProfilesideBar = ({ data }) => {
       <img
         className="rounded-full object-cover w-28 h-28 md:w-32 md:h-32"
         src={
-          data?.ProfileUrl ||
+          UserDetails?.profilePicture ||
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_gIiCoj736HqKkFR0ixF9h-NTvqb2eMd9cw&s'
         }
         alt="Profile"
       />
       <h2 className="mt-4 text-lg md:text-xl font-bold text-center">
-        {data?.fullname || 'Guest'}
+        {UserDetails?.fullname || 'Guest'}
       </h2>
-      <p className="text-sm text-gray-500 text-center">{data?.email}</p>
+      <p className="text-sm text-gray-500 text-center">{UserDetails?.email}</p>
 
       {/* Divider */}
       <hr className="w-full border-gray-300 my-4" />

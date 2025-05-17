@@ -7,8 +7,6 @@ const Profile = () => {
   const [data, setData] = useState(null);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
 
-
-
   // Responsive listener
   useEffect(() => {
     const handleResize = () => {
@@ -45,7 +43,7 @@ const Profile = () => {
     <div className={`flex h-screen ${isSmallScreen ? 'flex-col' : 'flex-row'}`}>
       {/* Sidebar */}
       <div className={`${isSmallScreen ? 'w-full' : 'w-1/4'} ${isSmallScreen ? 'h-auto' : 'h-screen'} p-4`}>
-        <ProfilesideBar data={data} />
+        <ProfilesideBar />
       </div>
 
       {/* Main Outlet Content */}
