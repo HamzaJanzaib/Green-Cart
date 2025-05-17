@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
-import { assets, dummyAddress } from '../assets/assets';
+import { assets } from '../assets/assets';
+import toast from 'react-hot-toast';
+import { getAddress } from '../Services/Others/GetAllAddress';
 
 const Cart = () => {
   const {
@@ -12,12 +14,13 @@ const Cart = () => {
     navigate,
     getCartTotalAmount,
     getCartCount,
+    user,
   } = useAppContext();
 
-  const [Address, setAddress] = useState(dummyAddress);
+  const [Address, setAddress] = useState([]);
   const [showAddress, setShowAddress] = useState(false);
   const [cartArray, setCartArray] = useState([]);
-  const [SelectedAddress, setSelectedAddress] = useState(dummyAddress[0]);
+  const [SelectedAddress, setSelectedAddress] = useState(null);
   const [PaymentOption, setPaymentOption] = useState('COD');
 
   const getCart = () => {
@@ -32,6 +35,23 @@ const Cart = () => {
     setCartArray(tempArray);
   };
 
+
+  const getUserAddress = async () => {
+    try {
+      const data = await getAddress();
+      console.log(data);
+      if (data.success) {
+        setAddress(data.data);
+        setSelectedAddress(data.data[0]);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error("getUserAddress error:", error);
+      toast.error("Failed to fetch address. Please try again.");
+    }
+  };
+
   const placeOrder = () => {
     // Add order placement logic here
     alert('Order placed successfully!');
@@ -41,7 +61,15 @@ const Cart = () => {
     if (Products.length > 0 && CartItems) {
       getCart();
     }
+    getUserAddress();
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Products, CartItems]);
+
+  useEffect(() => {
+    if (user) {
+      getUserAddress();
+    }
+  }, [user]);
 
   return Products.length > 0 && CartItems ? (
     <div className="flex flex-col md:flex-row mt-24">

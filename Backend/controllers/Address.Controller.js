@@ -48,7 +48,7 @@ export const addAddress = async (req, res) => {
 export const getAddress = async (req, res) => {
   try {
     const userId = req.user?.id;
-    const address = await AddressModel.findOne({ userId });
+    const address = await AddressModel.find({ userId });
 
     if (!address) {
       return res.status(404).json({

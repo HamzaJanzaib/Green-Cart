@@ -76,7 +76,7 @@ export const AppContextProvider = ({ children }) => {
             const data = await getAddress();
 
             if (data?.success) {
-                setuserAddress(data.data);
+                setuserAddress(data.data[0]);
                 if (data.data.role === "admin") {
                     setIsSeller(true);
                 }

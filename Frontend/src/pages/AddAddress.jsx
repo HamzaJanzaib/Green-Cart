@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { assets } from '../assets/assets'
 import { InputFeild } from '../Components/Client/Index'
 import toast from 'react-hot-toast';
@@ -17,7 +17,7 @@ const AddAddress = () => {
         country: "",
         phone: "",
     });
-    const { navigate } = useAppContext();
+    const { navigate, user } = useAppContext();
     const [loading, setloading] = useState(false)
 
     const handleChange = (e) => {
@@ -66,7 +66,7 @@ const AddAddress = () => {
 
             if (data.success) {
                 toast.success(data.message || "Address saved successfully!");
-                navigate("/profile");
+                navigate("/cart");
             } else {
                 toast.error(data?.message || "Address submission failed.");
             }
@@ -78,6 +78,12 @@ const AddAddress = () => {
         }
     };
 
+
+    useEffect(() => {
+        if(!user){
+            navigate("/cart")
+        }
+    } , [])
 
     return (
         <div className='mt-16 pb-16'>
