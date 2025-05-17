@@ -4,12 +4,12 @@ import { API_ENDPOINTS } from '../../config/config';
 export const placeOrderByCOD = async (orderData) => {
   try {
     const data = await fetchUtil(API_ENDPOINTS.PLACEORDERBYCOD, {
-      method: 'POST', // Use POST for placing a new order
+      method: 'POST', 
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include', // ensures cookies are sent for session validation
-      body: JSON.stringify(orderData), // include the order data (items, address, etc.)
+      credentials: 'include', 
+      body: JSON.stringify(orderData), 
     });
 
     return data; // returns success message or the order details

@@ -248,7 +248,8 @@ export const AppContextProvider = ({ children }) => {
         UserDetails,
         userAddress,
         Category,
-        getAllProducts
+        getAllProducts,
+        setCartItems,
     };
 
     return (

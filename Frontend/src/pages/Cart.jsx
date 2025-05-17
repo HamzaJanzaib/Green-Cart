@@ -3,6 +3,7 @@ import { useAppContext } from '../context/AppContext';
 import { assets } from '../assets/assets';
 import toast from 'react-hot-toast';
 import { getAddress } from '../Services/Others/GetAllAddress';
+import { placeOrderByCOD } from './../Services/Others/PlaceOrderCOD';
 
 const Cart = () => {
   const {
@@ -15,6 +16,7 @@ const Cart = () => {
     getCartTotalAmount,
     getCartCount,
     user,
+    setCartItems
   } = useAppContext();
 
   const [Address, setAddress] = useState([]);
@@ -52,9 +54,34 @@ const Cart = () => {
     }
   };
 
-  const placeOrder = () => {
-    // Add order placement logic here
-    alert('Order placed successfully!');
+  const placeOrder = async () => {
+    if (!SelectedAddress) {
+      return toast.error("Please select an address.");
+    }
+    try {
+      const orderData = {
+        items: cartArray.map((item) => ({
+          product: item._id,
+          quantity: item.quantity,
+          amount: item.offerPrice * item.quantity,
+        })),
+        address: SelectedAddress._id,
+      };
+      if (PaymentOption === 'COD') {
+        const data = await placeOrderByCOD(orderData);
+        console.log(data);
+        if (data.success) {
+          toast.success(data.message);
+          setCartItems({});
+          navigate('/profile/Order-Histry ');
+        } else {
+          toast.error(data.message);
+        }
+      }
+
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   useEffect(() => {
