@@ -3,7 +3,6 @@ import { API_ENDPOINTS } from '../../config/config';
 
 export const updatecart = async (cartItems) => {
   try {
-    console.log("Updating cart" , cartItems);
     const data = await fetchUtil(API_ENDPOINTS.UPDATECART, {
       method: 'POST',
       headers: {
