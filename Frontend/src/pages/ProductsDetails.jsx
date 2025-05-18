@@ -37,7 +37,7 @@ const ProductsDetails = () => {
                 <p className="text-sm text-gray-600">
                     <Link to={"/"}>Home</Link> /
                     <Link to={"/products"}> Products</Link> /
-                    <Link to={`/products/${product.category.text.toLowerCase()}`}> {product.category.text}</Link> /
+                    <Link to={`/products/${product.category.path.toLowerCase()}`}> {product.category.text}</Link> /
                     <span className="text-primary"> {product.name}</span>
                 </p>
 
