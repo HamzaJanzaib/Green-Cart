@@ -21,7 +21,10 @@ import {
   Profile,
   ProfileInfo,
   AboutUs,
-  ChatWidget
+  ContactUs,
+  ChatWidget,
+  ForgetPassword,
+  VerifyCode
 } from './pages/Index';
 
 // Admin Pages
@@ -72,6 +75,9 @@ const App = () => {
           <Route path='/products/:category/:id' element={<ProductsDetails />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/about' element={<AboutUs />} />
+          <Route path='/contact' element={<ContactUs />} />
+          <Route path='/forgot-password' element={<ForgetPassword />} />
+          <Route path='/verify-code' element={<VerifyCode />} />
           <Route path='/profile' element={<Profile />}>
             <Route index element={<ProfileInfo />} />
             <Route path='add-address' element={<AddAddress />} />

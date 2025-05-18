@@ -11,7 +11,10 @@ import ErrorPage from "./ErrorPage";
 import Profile from "./Profile"
 import ProfileInfo from './ProfileInfo';
 import AboutUs from "./AboutUs";
+import ContactUs from "./ContactUs";
 import ChatWidget from "./ChatWidget";
+import ForgetPassword from "./ForgetPassword";
+import VerifyCode from "./VerifyCode";
 
 export {
     Home,
@@ -27,5 +30,8 @@ export {
     Profile,
     ProfileInfo,
     AboutUs,
-    ChatWidget
+    ContactUs,
+    ChatWidget,
+    ForgetPassword,
+    VerifyCode
 }

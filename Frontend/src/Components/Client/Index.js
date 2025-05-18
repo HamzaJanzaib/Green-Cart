@@ -9,6 +9,7 @@ import Login from "./Login";
 import InputFeild from "./InputFeild";
 import ProfilesideBar from './ProfilesideBar';
 
+
 export {
     Header,
     Categories,
@@ -19,5 +20,5 @@ export {
     Footer,
     Login,
     InputFeild,
-    ProfilesideBar
+    ProfilesideBar,
 }

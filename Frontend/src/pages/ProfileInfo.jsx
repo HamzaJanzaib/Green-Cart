@@ -5,7 +5,8 @@ const ProfileInfo = () => {
   const {
     getCartCount,
     UserDetails,
-    userAddress
+    userAddress,
+    navigate,
   } = useAppContext();
 
 
@@ -89,7 +90,7 @@ const ProfileInfo = () => {
         <button className="bg-primary text-white px-6 py-2 rounded cursor-pointer hover:bg-primary-dull transition duration-200">
           Edit Profile
         </button>
-        <button className="bg-white text-primary cursor-pointer px-6 py-2 rounded transition duration-200">
+        <button onClick={() => navigate('/forget-password')} className="bg-white text-primary cursor-pointer px-6 py-2 rounded transition duration-200">
           Forget Password
         </button>
       </div>

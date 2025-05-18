@@ -1,7 +1,7 @@
 import fetchUtil from '../../utils/fetchUtil';
 import { API_ENDPOINTS } from '../../config/config';
 
-export const deleteProductAdmin = async (id) => {
+export const deleteProduct = async (id) => {
   try {
     const data = await fetchUtil(API_ENDPOINTS.ADMINDELETEPRODUCTS(id), {
       method: 'DELETE', 

@@ -10,7 +10,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setloading] = useState(false);
-    const { setShowUserLogin, setUser } = useAppContext();
+    const { setShowUserLogin, setUser, navigate } = useAppContext();
 
     const onSubmithandler = async (e) => {
         e.preventDefault();
@@ -38,7 +38,7 @@ const Login = () => {
             console.error(error);
             toast.error("Something went wrong. Please try again.");
         } finally {
-            setloading(false); 
+            setloading(false);
         }
     };
     return (
@@ -61,13 +61,23 @@ const Login = () => {
                     <p>Password</p>
                     <input onChange={(e) => setPassword(e.target.value)} value={password} placeholder="type here" className="border border-gray-200 rounded w-full p-2 mt-1 outline-primary" type="password" required />
                 </div>
-                <p className="text-sm">
-                    {state === "register" ? (
-                        <>Already have an account? <span onClick={() => setState("login")} className="text-primary cursor-pointer">Login</span></>
-                    ) : (
-                        <>New here? <span onClick={() => setState("register")} className="text-primary cursor-pointer">Register</span></>
+                <div className="flex justify-between items-center w-full">
+                    <p className="text-sm">
+                        {state === "register" ? (
+                            <>Already have an account? <span onClick={() => setState("login")} className="text-primary cursor-pointer">Login</span></>
+                        ) : (
+                            <>New here? <span onClick={() => setState("register")} className="text-primary cursor-pointer">Register</span></>
+                        )}
+                    </p>
+                    {state === "login" && (
+                        <p className="text-sm">
+                            <span onClick={() => {
+                                navigate('/forgot-password')
+                                setShowUserLogin(false);
+                            }} className="text-primary cursor-pointer">Forgot Password?</span>
+                        </p>
                     )}
-                </p>
+                </div>
                 <button type="submit" className="bg-primary hover:bg-primary-dull transition-all text-white w-full py-2 rounded-md cursor-pointer">
                     {
                         loading ? <>Loading.....</> : <> {state === "register" ? "Create Account" : "Login"}</>
