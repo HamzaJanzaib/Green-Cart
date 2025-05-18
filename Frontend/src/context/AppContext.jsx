@@ -159,10 +159,12 @@ export const AppContextProvider = ({ children }) => {
 
     useEffect(() => {
         fetchUser();
-        getAllProducts();
         getAllCategories();
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    useEffect(() => {
+        getAllProducts();
+    }, [Products])
 
     useEffect(() => {
         if (user) {
