@@ -28,6 +28,7 @@ export const AppContextProvider = ({ children }) => {
     const [CartItems, setCartItems] = useState({});
     const [SearchQuary, setSearchQuary] = useState({});
     const [UserDetails, setUserDetails] = useState({});
+    const [AdminDetails, setAdminDetails] = useState({});
     const [userAddress, setuserAddress] = useState({});
     const [AllOrders, setAllOrders] = useState([]);
 
@@ -37,7 +38,8 @@ export const AppContextProvider = ({ children }) => {
             const data = await checkAuthAdmin();
             if (data.success) {
                 setIsSeller(true);
-                navigate("/admin")
+                navigate("/admin");
+                setAdminDetails(data.data);
             } else {
                 setIsSeller(false);
                 navigate("/admin-login");
@@ -265,7 +267,8 @@ export const AppContextProvider = ({ children }) => {
         getAllProducts,
         setCartItems,
         AllOrders,
-        getUserProfile
+        getUserProfile,
+        AdminDetails,
     };
 
     return (

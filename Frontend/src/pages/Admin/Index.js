@@ -1,15 +1,19 @@
 import Dashboard from "./Dashboard";
 import AddProducts from "./AddProducts";
-import Chat from "./Chat";
-import Orders from "./Orders";
 import Products from "./Products";
+import Orders from "./Orders";
 import Setting from "./Setting";
+import Chat from "./Chat";
+import AdminLogin from "./AdminLogin";
+import AdminLayout from "./AdminLayout";
 
-export{
+export {
     Dashboard,
     AddProducts,
     Products,
     Orders,
     Setting,
-    Chat
+    Chat,
+    AdminLogin,
+    AdminLayout
 }

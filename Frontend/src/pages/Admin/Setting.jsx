@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useAppContext } from "../../context/AppContext";
 
 const Setting = () => {
+  const { AdminDetails } = useAppContext();
   const [admin, setAdmin] = useState({
-    name: "",
-    phone: "",
-    email: "",
+    name: AdminDetails?.fullname,
+    phone: AdminDetails?.phone,
+    email: AdminDetails?.email,
   });
 
   const [websiteSettings, setWebsiteSettings] = useState({
