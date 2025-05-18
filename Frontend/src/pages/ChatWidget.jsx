@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { IoCloseSharp } from "react-icons/io5";
+import { useAppContext } from '../context/AppContext';
 
 const ChatWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +9,7 @@ const ChatWidget = () => {
     const [messages, setMessages] = useState([
      
     ]);
+    const { UserDetails } = useAppContext();
 
     const toggleChat = () => setIsOpen(!isOpen);
 
@@ -23,6 +25,7 @@ const ChatWidget = () => {
             setMessage('');
         }
     };
+
 
     return (
         <div className="fixed bottom-[10%] right-[3%] z-50 ">
@@ -40,53 +43,51 @@ const ChatWidget = () => {
             {/* Chat Box */}
             <div
                 className={`transition-all ${!isOpen ? "hidden" : "block"} duration-300 ease-in-out transform ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'
-                    } mt-4 w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 p-4`}
+                    } mt-4 w-80 bg-black rounded-2xl shadow-2xl border border-gray-800 p-4`}
             >
                 <div className="flex justify-between items-center mb-3">
-                    <h4 className="font-semibold text-gray-800">Chat Support</h4>
-                    <button onClick={toggleChat} className="text-gray-500 hover:text-red-500 text-lg">
+                    <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full overflow-hidden">
+                            <img src={UserDetails?.profilePicture} alt="Profile" className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                            <h4 className="font-semibold text-primary">{UserDetails?.fullname}</h4>
+                            <p className="text-xs text-primary-dull/60">{UserDetails?.email}</p>
+                        </div>
+                    </div>
+                    <button onClick={toggleChat} className="text-gray-400 cursor-pointer hover:text-white text-lg">
                         <IoCloseSharp />
                     </button>
                 </div>
 
-                <div className="h-60 border border-gray-200 rounded-lg p-2 mb-3 overflow-y-auto text-sm">
-                    {messages.length === 0 ? (
-                        <p className="italic text-center text-gray-400">No messages yet...</p>
-                    ) : (
-                        messages.map((msg, index) => (
-                            <div key={index} className="mb-3">
-                                {msg.sender && (
-                                    <div className="flex justify-between items-center mb-1">
-                                        <span className={`font-semibold ${msg.isSupport ? 'text-blue-600' : 'text-gray-800'}`}>
-                                            {msg.sender}
-                                        </span>
-                                        <span className="text-xs text-gray-500">{msg.time}</span>
-                                    </div>
-                                )}
-                                {msg.content ? (
-                                    <p className="text-gray-700">{msg.content}</p>
-                                ) : (
-                                    <p className="text-xs text-gray-400 text-right">{msg.time}</p>
-                                )}
+                <div className="h-60 mb-3 mt-5 overflow-y-auto text-sm">
+                    {messages.map((msg, index) => (
+                        <div key={index} className={`mb-4 ${msg.isSupport ? '' : 'text-right'}`}>
+                            <div className={`${msg.isSupport ? 'bg-gray-800 text-white rounded-tl-none' : 'bg-white text-black rounded-tr-none'} p-3 rounded-2xl max-w-[80%] inline-block`}>
+                                {msg.content}
                             </div>
-                        ))
-                    )}
+                        </div>
+                    ))}
+                
                 </div>
 
-                <textarea
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    rows="2"
-                    className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:outline-none resize-none"
-                    placeholder="Type your message..."
-                    onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                />
-                <button
-                    onClick={handleSend}
-                    className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-medium transition"
-                >
-                    Send
-                </button>
+                <div className="relative">
+                    <input
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        className="w-full p-3 pr-12 bg-gray-800 border-none rounded-full text-sm text-white placeholder-gray-400 focus:outline-none"
+                        placeholder="Type your message..."
+                        onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                    />
+                    <button
+                        onClick={handleSend}
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary hover:bg-primary-dull cursor-pointer text-white p-2 rounded-full transition"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     );

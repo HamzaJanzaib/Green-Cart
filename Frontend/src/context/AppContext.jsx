@@ -164,16 +164,13 @@ export const AppContextProvider = ({ children }) => {
     }, []);
     useEffect(() => {
         getAllProducts();
-    }, [Products])
+    }, [Products]);
 
     useEffect(() => {
         if (user) {
-            if (location.pathname.includes("/profile")) {
-                getUserProfile();
-                getUserAddress();
-            }
+            getUserProfile();
+            getUserAddress();
         }
-        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
     useEffect(() => {
         if (location.pathname.includes("/admin")) {
@@ -267,7 +264,8 @@ export const AppContextProvider = ({ children }) => {
         Category,
         getAllProducts,
         setCartItems,
-        AllOrders
+        AllOrders,
+        getUserProfile
     };
 
     return (
