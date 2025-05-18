@@ -1,4 +1,4 @@
-import { v2 as Cloudinary } from 'cloudinary'; // Cloudinary v2 import for ESM
+import { v2 as Cloudinary } from 'cloudinary'; 
 import { extractPublicId } from '../Config/Helper.js';
 import { ProductModel, CategoryModel } from '../models/Index.js';
 import fs from 'fs';
@@ -237,7 +237,7 @@ export const updateProducts = async (req, res) => {
     // Resolve category ID if needed
     let categoryId = category;
     if (typeof category === 'string') {
-      const foundCategory = await CategoryModel.findOne({ text: category });
+      const foundCategory = await CategoryModel.findOne({ path: category });
       if (!foundCategory) {
         return res.status(400).json({
           success: false,

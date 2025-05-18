@@ -170,7 +170,7 @@ const Products = () => {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-4">
-                          <span className="text-green-600 hover:text-green-800 cursor-pointer text-[18px]">
+                          <span onClick={() => navigate(`/admin/Update-products/${product._id}`)} className="text-green-600 hover:text-green-800 cursor-pointer text-[18px]" >
                             <FaEdit />
                           </span>
                           <span onClick={() => {
@@ -240,7 +240,7 @@ const Products = () => {
       </div>
 
       {showDeleteModal && (
-        <div className="fixed flex items-center justify-center inset-0 z-50"  onClick={() => setShowDeleteModal(false)}>
+        <div className="fixed flex items-center justify-center inset-0 z-50" onClick={() => setShowDeleteModal(false)}>
           <VerifactionMode
             onCancel={() => setShowDeleteModal(false)}
             onConfirm={handleDelete}

@@ -1,7 +1,7 @@
 import fetchUtil from '../../utils/fetchUtil';
 import { API_ENDPOINTS } from '../../config/config';
 
-export const updateProductAdmin = async (id, productData) => {
+export const updateProduct = async ({id, payload}) => {
   try {
     const data = await fetchUtil(API_ENDPOINTS.ADMINUPDATEPRODUCTS(id), {
       method: 'PUT', 
@@ -9,7 +9,7 @@ export const updateProductAdmin = async (id, productData) => {
         'Content-Type': 'application/json',
       },
       credentials: 'include', 
-      body: JSON.stringify(productData),
+      body: JSON.stringify(payload),
     });
 
     return data; 

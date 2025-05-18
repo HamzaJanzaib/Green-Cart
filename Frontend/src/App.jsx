@@ -95,7 +95,8 @@ const App = () => {
             }
           >
             <Route index element={<Dashboard />} />
-            <Route path='add-products' element={<AddProducts />} />
+            <Route path='Add-products' element={<AddProducts />} />
+            <Route path='Update-products/:id' element={<AddProducts />} />
             <Route path='products-list' element={<Products />} />
             <Route path='orders' element={<Orders />} />
             <Route path='chats' element={<Chat />} />

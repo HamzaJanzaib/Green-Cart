@@ -7,7 +7,6 @@ import {
 import { addProduct } from "../../../Services/Admin/Addproducts";
 import toast from "react-hot-toast";
 import { useAppContext } from "../../../context/AppContext";
-import ProductCard from './../../Client/ProductCard';
 
 const MainProducts = () => {
   const [files, setFiles] = useState([null, null, null, null]);

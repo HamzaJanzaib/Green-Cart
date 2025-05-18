@@ -10,7 +10,7 @@ router.post("/addProducts", Upload.array('files', 4), IsAdmin, addProducts);
 
 
 // Update product (with image replacement)
-router.put("/updateProducts/:id", Upload.array("files"), IsAdmin, updateProducts);
+router.put("/updateProducts/:id", Upload.array("files", 4), IsAdmin, updateProducts);
 
 // Delete product
 router.delete("/delateProducts/:id", IsAdmin, DeleteProducts);
