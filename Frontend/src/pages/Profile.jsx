@@ -15,6 +15,7 @@ const Profile = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+  
 
   // Simulate fetching user data
   useEffect(() => {

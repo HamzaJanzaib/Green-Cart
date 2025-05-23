@@ -15,6 +15,9 @@ import ContactUs from "./ContactUs";
 import ChatWidget from "./ChatWidget";
 import ForgetPassword from "./ForgetPassword";
 import VerifyCode from "./VerifyCode";
+import UpdateProfile from './UpdateProfile';
+import UpdateInfo from './UpdateInfo';
+import UpdateAddress from './UpdateAddress';
 
 export {
     Home,
@@ -33,5 +36,8 @@ export {
     ContactUs,
     ChatWidget,
     ForgetPassword,
-    VerifyCode
+    VerifyCode,
+    UpdateProfile,
+    UpdateInfo,
+    UpdateAddress
 }

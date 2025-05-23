@@ -10,6 +10,7 @@ import { getallproducts } from "../Services/Others/GetAllProducts";
 import { getallcategory } from "../Services/Others/GetAllCategory";
 import { updatecart } from "../Services/Others/UpdateCart";
 import { getOrders } from "../Services/Others/GetUserOrders";
+import { getAllOrders } from "../Services/Others/GetAllOrders";
 
 //eslint-disable-next-line react-refresh/only-export-components
 export const AppContext = createContext();
@@ -31,6 +32,7 @@ export const AppContextProvider = ({ children }) => {
     const [AdminDetails, setAdminDetails] = useState({});
     const [userAddress, setuserAddress] = useState({});
     const [AllOrders, setAllOrders] = useState([]);
+    const [UserOrders, setUserOrders] = useState([]);
 
     const fetchAdmin = async () => {
         try {
@@ -147,9 +149,22 @@ export const AppContextProvider = ({ children }) => {
 
     const GetAllOrders = async () => {
         try {
-            const data = await getOrders();
+            const data = await getAllOrders();
             if (data?.success) {
                 setAllOrders(data.orders);
+            } else {
+                toast.error(data.message || "Failed to fetch user profile");
+            }
+
+        } catch (error) {
+            console.error("getUserProfile error:", error);
+        }
+    };
+    const GetUsersOrders = async () => {
+        try {
+            const data = await getOrders();
+            if (data?.success) {
+                setUserOrders(data.orders);
             } else {
                 toast.error(data.message || "Failed to fetch user profile");
             }
@@ -172,6 +187,7 @@ export const AppContextProvider = ({ children }) => {
         if (user) {
             getUserProfile();
             getUserAddress();
+            GetUsersOrders();
         }
     }, [user])
     useEffect(() => {
@@ -269,6 +285,7 @@ export const AppContextProvider = ({ children }) => {
         AllOrders,
         getUserProfile,
         AdminDetails,
+        UserOrders
     };
 
     return (

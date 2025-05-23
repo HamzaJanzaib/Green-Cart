@@ -13,7 +13,7 @@ const MainProducts = () => {
   const [formData, setFormData] = useState({
     name: "",
     category: "",
-    stockStatus: "true", // "true" = In Stock, "false" = Out of Stock
+    stockStatus: "true", 
     price: "",
     offerPrice: "",
     description: "",

@@ -24,7 +24,10 @@ import {
   ContactUs,
   ChatWidget,
   ForgetPassword,
-  VerifyCode
+  VerifyCode,
+  UpdateProfile,
+  UpdateInfo,
+  UpdateAddress,
 } from './pages/Index';
 
 // Admin Pages
@@ -82,6 +85,10 @@ const App = () => {
             <Route index element={<ProfileInfo />} />
             <Route path='add-address' element={<AddAddress />} />
             <Route path='Order-Histry' element={<MyOrders />} />
+          </Route>
+          <Route path='/update-profile' element={<UpdateProfile />} >
+            <Route path='Info' index element={<UpdateInfo />} />
+            <Route path='Address' element={<UpdateAddress />} />
           </Route>
           <Route path='*' element={<ErrorPage />} />
 

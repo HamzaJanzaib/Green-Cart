@@ -7,8 +7,10 @@ const ProfileInfo = () => {
     UserDetails,
     userAddress,
     navigate,
+    UserOrders
   } = useAppContext();
 
+  console.log(UserOrders)
 
   return (
     <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-4">
@@ -38,7 +40,7 @@ const ProfileInfo = () => {
         </div>
         <div>
           <p className="text-gray-600 font-medium">Total Orders</p>
-          <p className="text-gray-800">{UserDetails?.orderCount || "N/A"}</p>
+          <p className="text-gray-800">{UserOrders.length || "N/A"}</p>
         </div>
         <div>
           <p className="text-gray-600 font-medium">Cart Items</p>
@@ -87,14 +89,24 @@ const ProfileInfo = () => {
 
       {/* Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 mt-8 justify-end">
-        <button className="bg-primary text-white px-6 py-2 rounded cursor-pointer hover:bg-primary-dull transition duration-200">
+        <button
+          onClick={() => navigate('/update-profile')}
+          className="bg-primary text-white px-6 py-2 rounded cursor-pointer hover:bg-primary-dull transition duration-200">
           Edit Profile
         </button>
-        <button onClick={() => navigate('/forget-password')} className="bg-white text-primary cursor-pointer px-6 py-2 rounded transition duration-200">
+        <button onClick={() => navigate('/forgot-password')} className="bg-white text-primary cursor-pointer px-6 py-2 rounded transition duration-200">
           Forget Password
         </button>
       </div>
+
+    <div>
+      
     </div>
+
+    </div>
+
+
+
   );
 };
 

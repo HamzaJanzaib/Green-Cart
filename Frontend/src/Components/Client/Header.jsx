@@ -114,7 +114,7 @@ const Header = () => {
                                         Profile
                                     </Link>
                                     {isSeller && (
-                                        <Link to="/dashboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-2 text-sm hover:bg-gray-100">
+                                        <Link to="/admin" onClick={() => setDropdownOpen(false)} className="block px-4 py-2 text-sm hover:bg-gray-100">
                                             Dashboard
                                         </Link>
                                     )}
@@ -164,7 +164,7 @@ const Header = () => {
                 )}
 
                 {isSeller && user && (
-                    <Link to="/dashboard" onClick={() => setOpen(false)} className="text-gray-900 block">
+                    <Link to="/admin" onClick={() => setOpen(false)} className="text-gray-900 block">
                         Dashboard
                     </Link>
                 )}

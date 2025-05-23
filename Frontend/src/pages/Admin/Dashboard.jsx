@@ -49,6 +49,7 @@ const Dashboard = () => {
     setGrains(Products.filter(item => item.category.path === 'Grains'));
   }, [Products]);
 
+
   const ProductsCategoryesChartData = [
     {
       name: "Vegetables",
@@ -82,7 +83,7 @@ const Dashboard = () => {
   ]
 
   const todayStats = calculateOrderStats(todayOrders);
-  const allTimeStats = calculateOrderStats(AllOrders);
+  const allTimeStats = AllOrders.length > 0 ? calculateOrderStats(AllOrders) : { totalCash: 0, totalOnline: 0 };
 
   const chartData = [
     {
@@ -147,7 +148,7 @@ const Dashboard = () => {
               label
             >
               {ProductsCategoryesChartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={`#${Math.floor(Math.random()*16777215).toString(16)}`} />
+                <Cell key={`cell-${index}`} fill={`#${Math.floor(Math.random() * 16777215).toString(16)}`} />
               ))}
             </Pie>
             <Tooltip />
