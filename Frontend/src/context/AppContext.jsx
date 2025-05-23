@@ -30,7 +30,7 @@ export const AppContextProvider = ({ children }) => {
     const [SearchQuary, setSearchQuary] = useState({});
     const [UserDetails, setUserDetails] = useState({});
     const [AdminDetails, setAdminDetails] = useState({});
-    const [userAddress, setuserAddress] = useState({});
+    const [userAddress, setuserAddress] = useState([]);
     const [AllOrders, setAllOrders] = useState([]);
     const [UserOrders, setUserOrders] = useState([]);
 
@@ -82,7 +82,7 @@ export const AppContextProvider = ({ children }) => {
             const data = await getAddress();
 
             if (data?.success) {
-                setuserAddress(data.data[0]);
+                setuserAddress(data.data);
                 if (data.data.role === "admin") {
                     setIsSeller(true);
                 }
@@ -285,7 +285,8 @@ export const AppContextProvider = ({ children }) => {
         AllOrders,
         getUserProfile,
         AdminDetails,
-        UserOrders
+        UserOrders,
+        getUserAddress,
     };
 
     return (

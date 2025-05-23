@@ -36,7 +36,7 @@ const ProfileInfo = () => {
         </div>
         <div>
           <p className="text-gray-600 font-medium">Phone Number</p>
-          <p className="text-gray-800">{userAddress?.phoneNumber || 'N/A'}</p>
+          <p className="text-gray-800">{userAddress[0]?.phoneNumber || 'N/A'}</p>
         </div>
         <div>
           <p className="text-gray-600 font-medium">Total Orders</p>
@@ -54,35 +54,35 @@ const ProfileInfo = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <p className="text-gray-600 font-medium">First Name</p>
-            <p className="text-gray-800">{userAddress?.firstName || 'N/A'}</p>
+            <p className="text-gray-800">{userAddress[0]?.firstName || 'N/A'}</p>
           </div>
           <div>
             <p className="text-gray-600 font-medium">Last Name</p>
-            <p className="text-gray-800">{userAddress?.lastName || 'N/A'}</p>
+            <p className="text-gray-800">{userAddress[0]?.lastName || 'N/A'}</p>
           </div>
           <div>
             <p className="text-gray-600 font-medium">Street</p>
-            <p className="text-gray-800">{userAddress?.street || 'N/A'}</p>
+            <p className="text-gray-800">{userAddress[0]?.street || 'N/A'}</p>
           </div>
           <div>
             <p className="text-gray-600 font-medium">City</p>
-            <p className="text-gray-800">{userAddress?.city || 'N/A'}</p>
+            <p className="text-gray-800">{userAddress[0]?.city || 'N/A'}</p>
           </div>
           <div>
             <p className="text-gray-600 font-medium">State</p>
-            <p className="text-gray-800">{userAddress?.state || 'N/A'}</p>
+            <p className="text-gray-800">{userAddress[0]?.state || 'N/A'}</p>
           </div>
           <div>
             <p className="text-gray-600 font-medium">Zip Code</p>
-            <p className="text-gray-800">{userAddress?.zipcode || 'N/A'}</p>
+            <p className="text-gray-800">{userAddress[0]?.zipcode || 'N/A'}</p>
           </div>
           <div>
             <p className="text-gray-600 font-medium">Country</p>
-            <p className="text-gray-800">{userAddress?.country || 'N/A'}</p>
+            <p className="text-gray-800">{userAddress[0]?.country || 'N/A'}</p>
           </div>
           <div>
             <p className="text-gray-600 font-medium">Phone</p>
-            <p className="text-gray-800">{userAddress?.phoneNumber || 'N/A'}</p>
+            <p className="text-gray-800">{userAddress[0]?.phoneNumber || 'N/A'}</p>
           </div>
         </div>
       </div>

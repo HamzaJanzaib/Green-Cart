@@ -93,19 +93,19 @@ const AddAddress = () => {
             <div className='flex flex-col-reverse md:flex-row justify-between mt-20'>
                 <form onSubmit={handleAddressSubmit} className='space-y-4 mt-6 text-sm w-full md:w-2/5'>
                     <div className='grid grid-cols-2 gap-4'>
-                        <InputFeild handlechange={handleChange} address={address} name="firstName" type="text" placeholder="First Name" />
-                        <InputFeild handlechange={handleChange} address={address} name="lastName" type="text" placeholder="Last Name" />
+                        <InputFeild handlechange={handleChange} details={address} name="firstName" type="text" placeholder="First Name" />
+                        <InputFeild handlechange={handleChange} details={address} name="lastName" type="text" placeholder="Last Name" />
                     </div>
-                    <InputFeild handlechange={handleChange} address={address} name="email" type="email" placeholder="Email" />
-                    <InputFeild handlechange={handleChange} address={address} name="phone" type="text" placeholder="Phone Number" />
-                    <InputFeild handlechange={handleChange} address={address} name="street" type="text" placeholder="Street Address" />
+                    <InputFeild handlechange={handleChange} details={address} name="email" type="email" placeholder="Email" />
+                    <InputFeild handlechange={handleChange} details={address} name="phone" type="text" placeholder="Phone Number" />
+                    <InputFeild handlechange={handleChange} details={address} name="street" type="text" placeholder="Street Address" />
                     <div className='grid grid-cols-2 gap-4'>
-                        <InputFeild handlechange={handleChange} address={address} name="city" type="text" placeholder="City" />
-                        <InputFeild handlechange={handleChange} address={address} name="state" type="text" placeholder="State" />
+                        <InputFeild handlechange={handleChange} details={address} name="city" type="text" placeholder="City" />
+                        <InputFeild handlechange={handleChange} details={address} name="state" type="text" placeholder="State" />
                     </div>
                     <div className='grid grid-cols-2 gap-4'>
-                        <InputFeild handlechange={handleChange} address={address} name="zipcode" type="text" placeholder="Zip Code" />
-                        <InputFeild handlechange={handleChange} address={address} name="country" type="text" placeholder="Country" />
+                        <InputFeild handlechange={handleChange} details={address} name="zipcode" type="text" placeholder="Zip Code" />
+                        <InputFeild handlechange={handleChange} details={address} name="country" type="text" placeholder="Country" />
                     </div>
                     <button type="submit" className='mt-4 bg-primary hover:bg-primary-dull text-white py-2 px-6 rounded'>
                         {

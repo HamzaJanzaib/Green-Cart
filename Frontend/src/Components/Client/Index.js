@@ -8,6 +8,8 @@ import Footer from "./Footer";
 import Login from "./Login";
 import InputFeild from "./InputFeild";
 import ProfilesideBar from './ProfilesideBar';
+import AddressCard from './AddressCard';
+import ModifyAddress from './ModifyAddress';
 
 
 export {
@@ -21,4 +23,6 @@ export {
     Login,
     InputFeild,
     ProfilesideBar,
+    AddressCard,
+    ModifyAddress
 }
